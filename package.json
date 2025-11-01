@@ -11,7 +11,7 @@
   "scripts": {
     "preconfig": "node createRequiredConfig.js",
     "prerelease": "npm --no-git-tag-version --preid=build version prerelease",
-    "prebuild": "yarn preconfig && yarn prerelease",
+    "prebuild": "yarn preconfig",
     "test": "jest",
     "cover-test": "jest --coverage --colors",
     "build": "webpack --bail --mode production",
