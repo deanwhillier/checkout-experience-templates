@@ -32,7 +32,7 @@ export function useGetSavedAddressData(type: string): ISavedAddressHookProps {
     let count = 1;
     const options = savedAddresses.map((address , index) => ({
         value: makeAddressId(address, index),
-        name: address.address_line_1 || `Incomplete address #${count++}`,
+        name: `${address.address_line_1} (${address.first_name} ${address.last_name})` || `Incomplete address #${count++}`,
     }));
     const currentAddress = useGetAddressData(type);
     const selectedOptionId = useMemo(() => {

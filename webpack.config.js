@@ -19,9 +19,9 @@ bugsnagApiKeyProduction && bugsnagPlugin.push(new BugsnagBuildReporterPlugin({ap
 module.exports = {
     entry: {
         one_page: './src/themes/one-page/init.tsx',
-        buy_now: './src/themes/buy-now/init.tsx',
-        three_page: './src/themes/three-page/init.tsx',
-        app_version_check: './src/appVersionCheck.ts',
+        // buy_now: './src/themes/buy-now/init.tsx',
+        // three_page: './src/themes/three-page/init.tsx',
+        // app_version_check: './src/appVersionCheck.ts',
     },
     output: {
         path: path.join(__dirname, '/build'),
