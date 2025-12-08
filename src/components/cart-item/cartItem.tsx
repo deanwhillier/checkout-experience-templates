@@ -6,7 +6,7 @@ import {SemiControlledNumberInput} from '../semi-controlled-number-input/semiCon
 import {getLineItemPropertiesForDisplay} from 'src/utils';
 import {Constants} from 'src/constants';
 
-export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLineItemProperties = true}: ICartItemProps): React.ReactElement {
+export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLineItemProperties = false}: ICartItemProps): React.ReactElement {
     const {product_data} = line_item;
     const {formattedPrice} = useGetCurrencyInformation();
     const displayExchangeRate: number = useAppSelector((state) => state.data.application_state?.display_exchange_rate);
@@ -26,13 +26,33 @@ export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLin
     const cartParameters = useGetCartParameters();
     const properties = getLineItemPropertiesForDisplay(product_data.properties, cartParameters);
 
+    const productDetails: {
+        cartId: string
+        productId: number
+        name: string
+        image: string
+        price?: {
+            base?: number
+            discount?: number
+        }
+        sku: string
+        uom?: {
+            quantity?: number
+            code?: string
+            id?: number
+            label?: string
+        }
+    } = JSON.parse(decodeURI(product_data.properties.product_details || '{}'));
+
     return (
         <li className="cart-item">
             <Image src={product_data.image_url} alt={product_data.product_title} className="cart-item__img-container cart-item__img-container--empty" />
             <div className="cart-item__text">
-                <h2 className="cart-item__title">{product_data.product_title}</h2>
-                {(product_data.title && product_data.title.toLowerCase() !== Constants.DEFAULT_TITLE ) && (
-                    <p className="cart-item__variant-title">{product_data.title}</p>
+                <h2 className="cart-item__title">{product_data.product_title || product_data.title}</h2>
+                {(productDetails.sku ) && (
+                    <p className="cart-item__variant-title">
+                        SKU #{productDetails.sku}{(productDetails.uom?.quantity || 0) > 1 && productDetails.uom?.label ? ` | ${productDetails.uom?.label}` : ''}
+                    </p>
                 )}
                 {   showLineItemProperties && properties.map((property) => {
                     const el = document.createElement('textarea');
@@ -78,7 +98,14 @@ export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLin
                         </div>
                     )}
                 </div>
-                <div className="cart-item__price"><Price amount={displayTotal} moneyFormatString={formattedPrice} textAlign="right" /></div>
+                <div className="cart-item__price">
+                    <Price
+                        amount={productDetails.price?.discount || productDetails.price?.base || displayTotal}
+                        amountBeforeDiscount={productDetails.price?.discount && productDetails.price?.base ? productDetails.price.base : undefined }
+                        moneyFormatString={formattedPrice}
+                        textAlign="right"
+                    />
+                </div>
             </div>
         </li>
     );

@@ -60,7 +60,7 @@ html.loading {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .three-page {
