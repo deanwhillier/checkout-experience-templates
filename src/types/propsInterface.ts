@@ -269,7 +269,7 @@ export interface ISavedAddressHookProps{
 export interface IBreadcrumbsProps {
     active: number;
     sectionLabel?: string
-    crumbs?: Array<IBreadcrumb>    
+    crumbs?: Array<IBreadcrumb>
 }
 
 export interface IFormControlsProps {
@@ -613,6 +613,7 @@ export interface IExternalPaymentGatewayIframeProps {
 
 export interface ILifeFieldsProps {
     lifeFields: Array<ILifeField>;
+    heading?:string;
     className?: string;
 }
 

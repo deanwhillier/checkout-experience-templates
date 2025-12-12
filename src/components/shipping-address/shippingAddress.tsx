@@ -16,6 +16,7 @@ export function ShippingAddress(): React.ReactElement {
                 showTitle={true}
                 showSavedAddresses={false}
             />
+            <p>We’ll use this to contact you in case anything comes up with your order. There is no charge to receive these communications, but your service provider’s standard message, data rates, or long-distance rates may apply.</p>
         </div>
     );
 }

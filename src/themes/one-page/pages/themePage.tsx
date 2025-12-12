@@ -99,7 +99,7 @@ export function ThemePage(): React.ReactElement {
                                 />
                             )}
                             <CustomerInformation/>
-                            <LifeFields className={'customer-info-life-elements'} lifeFields={customerInfoLifeFields}/>
+                            <LifeFields className={'customer-info-life-elements'} lifeFields={customerInfoLifeFields} heading='Delivery instructions'/>
                             <ShippingAddress/>
                             <LifeFields className={'shipping-life-elements'} lifeFields={shippingLifeFields}/>
                             {requiresShipping ? <BillingAddress/> : null}

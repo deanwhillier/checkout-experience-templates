@@ -21,6 +21,7 @@ export function checkErrorAndProceedToNextPage (
         dispatch(actionSetLoaderAndDisableButton(loaderName, false));
 
         if (errors.length <= 0 || isOnlyDiscountCodeError(errors)) {
+            // TODO: Tie into the order complete stage to do a server trip to trigger completing on the website
             history.replace(getCheckoutUrl(page));
             if (callOrderCompleteAnalytics) {
                 const {public_order_id: id, application_state: appState} = getState().data;

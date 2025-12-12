@@ -4,7 +4,6 @@ import {ICartItemProps} from 'src/types';
 import {useGetCurrencyInformation, useCartItem, useGetCartParameters, useAppSelector} from 'src/hooks';
 import {SemiControlledNumberInput} from '../semi-controlled-number-input/semiControlledNumberInput';
 import {getLineItemPropertiesForDisplay} from 'src/utils';
-import {Constants} from 'src/constants';
 
 export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLineItemProperties = false}: ICartItemProps): React.ReactElement {
     const {product_data} = line_item;
@@ -43,6 +42,9 @@ export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLin
             label?: string
         }
     } = JSON.parse(decodeURI(product_data.properties.product_details || '{}'));
+
+    const amount = (productDetails.price?.discount || productDetails.price?.base || displayTotal) * localQuantity;
+    const amountBeforeDiscount = productDetails.price?.discount && productDetails.price?.base ? productDetails.price.base * localQuantity : undefined;
 
     return (
         <li className="cart-item">
@@ -100,8 +102,8 @@ export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLin
                 </div>
                 <div className="cart-item__price">
                     <Price
-                        amount={productDetails.price?.discount || productDetails.price?.base || displayTotal}
-                        amountBeforeDiscount={productDetails.price?.discount && productDetails.price?.base ? productDetails.price.base : undefined }
+                        amount={amount}
+                        amountBeforeDiscount={amountBeforeDiscount}
                         moneyFormatString={formattedPrice}
                         textAlign="right"
                     />

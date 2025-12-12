@@ -11,7 +11,7 @@ export function SummaryDiscountCode(): React.ReactElement {
     const displayExchangeRate: number = useAppSelector((state) => state.data.application_state?.display_exchange_rate);
     return (
         <div className={classNames(['discount-code', 'discount-code--border-bottom'])}>
-            {/* <div className={'discount-code-input'}>
+            <div className={'discount-code-input'}>
                 <FieldInput placeholder={discountCodeInputText}
                     className={'discount-code__input-field'}
                     name={'discount-code'}
@@ -32,7 +32,7 @@ export function SummaryDiscountCode(): React.ReactElement {
                 >
                     {'Apply'}
                 </Button>
-            </div> */}
+            </div>
             <FlashError type={'discountFlash'}/>
             <div className={'discount-code__list-discounts'}>
                 {

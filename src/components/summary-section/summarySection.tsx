@@ -28,8 +28,8 @@ export function SummarySection (props: ISummarySection) : React.ReactElement {
                     <h2 className={'cart-summary__title-content'} data-testid={'summary__cart-total-title'}>Summary</h2>
                     <Price amount={totals} moneyFormatString={formattedPrice} className={'summary__cart-price'} data-testid={'summary__cart-total-price'}/>
                 </div>
-                {showSummary && !props.orderCompleted && <SummaryDiscountCode />}
                 {showSummary && <SummaryTotals orderCompleted={props.orderCompleted}/>}
+                {/* {showSummary && !props.orderCompleted && <SummaryDiscountCode />} */}
                 {showSummary && <CartItems line_items={lineItems}/>}
             </aside>
         </div>

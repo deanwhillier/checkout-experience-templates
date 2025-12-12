@@ -41,6 +41,8 @@ export function ShippingLines(props: IShippingLinesProps): React.ReactElement {
                     </div>
                 }
             </div>  : null}
+            <p>Shipping rates are calculated based on the delivery address and weight of purchased items. We offer free local delivery for orders over $40 and courier shipping for orders over $150.00 CAD with a 40 lb maximum weight per item.</p>
+            <p><strong>Local deliveries should arrive in 1&ndash;2 business days, while courier deliveries are calculated after checkout.</strong></p>
         </div>
     );
 }

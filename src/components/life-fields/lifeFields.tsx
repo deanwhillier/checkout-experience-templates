@@ -20,6 +20,7 @@ export function LifeFields(props: ILifeFieldsProps): React.ReactElement {
 
     return (
         <div className={cn(['life-elements', props.className])}>
+            {props.heading ? <div className="field-section__header"><h2 className="field-section__heading">{props.heading}</h2></div> : ''}
             {
                 sortedLifeFields.map((lifeField: ILifeField) => {
                     return (
