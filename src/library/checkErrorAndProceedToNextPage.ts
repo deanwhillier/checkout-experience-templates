@@ -3,7 +3,7 @@ import {IOrderInitialization} from 'src/types';
 import {actionRemoveErrorByField, actionRemoveErrorByTypeAndCode, actionSetLoaderAndDisableButton} from 'src/action';
 import {HistoryLocationState} from 'react-router';
 import {getCheckoutUrl, getTotals, isOnlyDiscountCodeError} from 'src/utils';
-import {errorFields, errorTypes} from 'src/constants';
+import {Constants, errorFields, errorTypes} from 'src/constants';
 import {orderCompleteAnalytics} from 'src/analytics';
 import {IFees, IShippingLine} from '@boldcommerce/checkout-frontend-library';
 
@@ -37,6 +37,10 @@ export function checkErrorAndProceedToNextPage (
                 const orderTotal = appState.order_total;
                 const totals = getTotals(lineItems, payments, taxes, fees, discounts, orderTotal);
                 orderCompleteAnalytics(customer, addresses, lineItems, currency, totals, shipping, id, discounts);
+            }
+            // force a server trip for the thank you page to clear cart and checkout
+            if (page === Constants.THANK_YOU_ROUTE) {
+                window.location.replace(`${getCheckoutUrl(page)}?public_order_id=${getState()?.data?.public_order_id}`);
             }
         }
     };
