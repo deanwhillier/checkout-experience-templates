@@ -15,15 +15,21 @@ export function ThankYou(): React.ReactElement {
     const orderConfirmationLifeFields = useGetLifeFields(LifeInputLocationConstants.ORDER_CONFIRMATION);
     const orderDetailsLifeFields = useGetLifeFields(LifeInputLocationConstants.ORDER_DETAILS);
 
+    const customOrderConfirmedTitle = 'Order Confirmed';
+    const customerOrderMessageText = 'Thank you for your order — it has been placed successfully. You will receive a confirmation email shortly.';
+
     return(
         <div className={'thank-you'}>
             <Header isMobile={false}/>
             <main aria-label={terms.orderConfirmed}>
                 <GenericMessageSection
                     className={'thank-you__message'}
-                    sectionTitle={thankYouTitle}
-                    messageTitle={terms.orderConfirmed}
-                    messageText={terms.orderConfirmedText}
+                    // sectionTitle={thankYouTitle}
+                    sectionTitle={''}
+                    // messageTitle={terms.orderConfirmed}
+                    messageTitle={customOrderConfirmedTitle}
+                    // messageText={terms.orderConfirmedText}
+                    messageText={customerOrderMessageText}
                     orderConfirmation={true}
                 />
                 <LifeFields className={'order-confirmation-life-elements'} lifeFields={orderConfirmationLifeFields}/>
