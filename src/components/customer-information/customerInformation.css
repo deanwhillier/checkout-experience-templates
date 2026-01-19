@@ -21,7 +21,7 @@
 
 .customer-information__accepts-marketing .stx-checkbox__input:focus {
     outline: none;
-    box-shadow: 0px 0px 0px 2px #0A75C2 inset;
+    box-shadow: 0px 0px 0px 2px #B40400 inset;
 }
 
 .customer-information__accepts-marketing .stx-checkbox__input:focus-visible {
@@ -36,5 +36,5 @@
 }
 
 .customer-information__accepts-marketing .stx-checkbox--is-checked .stx-checkbox__input {
-    box-shadow: 0px 0px 0px 10px #0A75C2 inset;
+    box-shadow: 0px 0px 0px 10px #B40400 inset;
 }

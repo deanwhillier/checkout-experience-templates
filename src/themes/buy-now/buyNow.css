@@ -35,14 +35,14 @@ html, body, .buy-now__app {
 
 .buy-now-container a:hover {
   cursor: pointer;
-  color: #0A75C2;
+  color: #B40400;
   text-decoration: underline;
 }
 
 .buy-now-container a:focus {
   border-radius: 1px;
   outline: 2px solid #2283C8;
-  color: #0A75C2;
+  color: #B40400;
 }
 
 .buy-now-container a:active {
@@ -105,7 +105,7 @@ html, body, .buy-now__app {
 }
 
 .buy-now__checkout-button {
-  background-color: #0A75C2;
+  background-color: #B40400;
   width: 100%;
   color: #FFF;
   border: 1px inset #E6E6E6;
@@ -196,7 +196,7 @@ html, body, .buy-now__app {
 }
 
 .payment-heading p {
-  color: #0A75C2;
+  color: #B40400;
   line-height: 20px;
   font-size: 16px;
   font-weight: 700;
@@ -209,7 +209,7 @@ html, body, .buy-now__app {
 }
 
 .buy-now__app .buy-now__shipping .shipping_line__items-description .stx-radio-field {
-  display: inline-flex;  
+  display: inline-flex;
 }
 
 .buy-now .field--Hidden {
@@ -237,7 +237,7 @@ html, body, .buy-now__app {
 }
 
 .buy-now__app .stx-radio__input:checked {
-  box-shadow: #0A75C2 0px 0px 0px 6px inset;
+  box-shadow: #B40400 0px 0px 0px 6px inset;
 }
 
 .buy-now__app .field-section__heading {
@@ -266,7 +266,7 @@ html, body, .buy-now__app {
   right: 0;
 }
 
-.buy-now__app #overlay, 
+.buy-now__app #overlay,
 .buy-now__app #overlay-inverted {
   display:flex;
   flex-direction: column;
@@ -375,7 +375,7 @@ html, body, .buy-now__app {
     width: 50%;
     padding-right: 15px;
   }
-  
+
   .buy-now .field-section__content .input-field__container.address__last,
   .buy-now .field-section__content .input-field__container.address__postal_code,
   .buy-now .field-section__content .select-field__container.address__country {

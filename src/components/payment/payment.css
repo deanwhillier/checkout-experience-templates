@@ -2,6 +2,10 @@
     padding: 16px 0px;
 }
 
+.payment + .payment {
+    padding-top: 0px;
+}
+
 .payment__no-valid-address{
     border: 1px solid #949494;
     box-sizing: border-box;
@@ -24,6 +28,10 @@
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
+}
+/* override */
+.payment__block{
+    border-radius: 0;
 }
 
 .payment__iframe--hidden{

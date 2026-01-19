@@ -11,7 +11,7 @@
     line-height: 22px;
 }
 .stx-radio__input:checked {
-    box-shadow: 0 0 0 6px #0A75C2 inset;
+    box-shadow: 0 0 0 6px #B40400 inset;
 }
 /* CUSTOMIZATIONS */
 .stx-radio-field__radio {
