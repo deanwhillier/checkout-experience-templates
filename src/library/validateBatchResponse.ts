@@ -4,9 +4,10 @@ import {
     IApiSubrequestSuccessResponse,
     IApiBatchResponse,
     IApiReturnObject,
+    sendExternalPaymentGatewayUpdateStateAction,
 } from '@boldcommerce/checkout-frontend-library';
 import {handleErrorIfNeeded} from 'src/utils';
-import {handleBatchSuccess} from 'src/library';
+import {getApplicationStateFromLib, handleBatchSuccess} from 'src/library';
 
 export async function validateBatchResponse(dispatch: Dispatch, getState: () => IOrderInitialization, response: IApiReturnObject): Promise<void> {
 
@@ -26,4 +27,13 @@ export async function validateBatchResponse(dispatch: Dispatch, getState: () => 
             handleBatchSuccess(dispatch, getState, subRequest as IApiSubrequestSuccessResponse);
         });
     }
+
+    dispatch(getApplicationStateFromLib);
+    const state = getState();
+    for (const external_payment_gateway of state.data.initial_data.external_payment_gateways) {
+        sendExternalPaymentGatewayUpdateStateAction(external_payment_gateway, state.data);
+    }
+    console.log(
+        '[CHECKOUT]', {method: 'validateBatchResponse', state}
+    );
 }

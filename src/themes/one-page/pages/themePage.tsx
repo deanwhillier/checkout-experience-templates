@@ -19,7 +19,7 @@ import React, {useEffect} from 'react';
 import {getCheckoutUrl, getTerm, withPreventDefault} from 'src/utils';
 import {Constants, LifeInputPageConstants} from 'src/constants';
 import {useGetOnePageFooterData, useIsValidShippingOnLoad} from 'src/themes/one-page/hooks';
-import {checkInventoryStage} from '@boldcommerce/checkout-frontend-library';
+import {checkInventoryStage, sendExternalPaymentGatewayUpdateStateAction} from '@boldcommerce/checkout-frontend-library';
 import {useDispatch} from 'react-redux';
 import {checkInventory, setDefaultAddresses} from 'src/library';
 import {
@@ -29,7 +29,8 @@ import {
     useGetRequiresShipping,
     useOnLoadDefaultLifeFields,
     useGetLifeFieldsOnPage,
-    useGetIsOrderProcessed
+    useGetIsOrderProcessed,
+    useAppSelector
 } from 'src/hooks';
 import {LifeInputLocationConstants} from 'src/constants';
 import {useHistory} from 'react-router';
@@ -58,6 +59,7 @@ export function ThemePage(): React.ReactElement {
     const mainContentBeginningLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_BEGINNING);
     const mainContentEndLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_END);
 
+    const data = useAppSelector((state) => state.data);
 
     useEffect(() => {
         dispatch(actionSetOnePageTheme(true));
@@ -71,6 +73,15 @@ export function ThemePage(): React.ReactElement {
             history.replace(getCheckoutUrl(Constants.THANK_YOU_ROUTE));
         }
     }, []);
+
+    // update external payment gateways after form updates
+    useEffect(() => {
+        if (!footerProps.nextButtonLoading) {
+            paymentExternalPaymentGateways.forEach((external_payment_gateway) => {
+                sendExternalPaymentGatewayUpdateStateAction(external_payment_gateway, data);
+            });
+        }
+    }, [footerProps.nextButtonLoading]);
 
     return (
         <div className={'checkout-experience-container'}>
