@@ -1,5 +1,5 @@
 import React from 'react';
-import {FieldSection, AddressSavedSelect} from 'src/components';
+import {FieldSection} from 'src/components';
 import {CheckboxField} from '@boldcommerce/stacks-ui/lib/';
 import {getTerm, isShopifyPlatform} from 'src/utils';
 import {Constants} from 'src/constants';
@@ -34,13 +34,14 @@ export function LoggedInCustomer(): React.ReactElement {
                     onChange={handleCheckboxChange}
                     data-testid={'accept-marketing-checkbox'}
                 />
-                <div className={'address__saved'}>
-                    <AddressSavedSelect 
-                        type={Constants.SHIPPING} 
+                {/* Moved to shipping address component */}
+                {/* <div className={'address__saved'}>
+                    <AddressSavedSelect
+                        type={Constants.SHIPPING}
                         className={'address__saved-select'}
                         autoSelect={true}
                     />
-                </div>
+                </div> */}
             </FieldSection>
         </div>
     );

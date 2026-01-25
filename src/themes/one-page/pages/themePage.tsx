@@ -1,4 +1,5 @@
 import {
+    AddressSavedSelect,
     BillingAddress,
     CustomerInformation,
     EpsExpressPaymentGateway,
@@ -110,14 +111,14 @@ export function ThemePage(): React.ReactElement {
                                 />
                             )}
                             <CustomerInformation/>
-                            <LifeFields className={'customer-info-life-elements'} lifeFields={customerInfoLifeFields}/>
+                            {customerInfoLifeFields.length ? <LifeFields className={'customer-info-life-elements'} lifeFields={customerInfoLifeFields}/> : null}
                             <ShippingAddress/>
-                            <LifeFields className={'shipping-life-elements'} lifeFields={shippingLifeFields}/>
-                            {requiresShipping ? <BillingAddress/> : null}
-                            <LifeFields className={'billing-address-after-life-elements'} lifeFields={billingAddressAfterLifeFields}/>
+                            {shippingLifeFields.length ? <LifeFields className={'shipping-life-elements'} lifeFields={shippingLifeFields}/> : null}
                             <ShippingLines theme={Constants.ONE_PAGE}/>
-                            <LifeFields className={'shipping-lines-life-elements'} lifeFields={shippingLinesLifeFields}/>
-                            <LifeFields className={'payment-method-above-life-elements'} lifeFields={paymentGatewayAboveLifeFields}/>
+                            {shippingLinesLifeFields.length ? <LifeFields className={'shipping-lines-life-elements'} lifeFields={shippingLinesLifeFields}/> : null}
+                            {requiresShipping ? <BillingAddress/> : null}
+                            {billingAddressAfterLifeFields.length ? <LifeFields className={'billing-address-after-life-elements'} lifeFields={billingAddressAfterLifeFields}/> : null}
+                            {paymentGatewayAboveLifeFields.length ? <LifeFields className={'payment-method-above-life-elements'} lifeFields={paymentGatewayAboveLifeFields}/> : null}
                             <Payment loadIframeImmediately={false} />
                             {paymentExternalPaymentGateways.map((externalGateway) =>
                                 <ExternalPaymentGateway
@@ -128,7 +129,7 @@ export function ThemePage(): React.ReactElement {
                                     position={Constants.PAYMENT_METHOD_BELOW}
                                 />
                             )}
-                            <LifeFields className={'payment-gateway-life-elements'} lifeFields={paymentGatewayLifeFields}/>
+                            {paymentGatewayLifeFields.length ? <LifeFields className={'payment-gateway-life-elements'} lifeFields={paymentGatewayLifeFields}/> : null}
                             <TaxExemption />
                             <FormControls {...footerProps}/>
                         </form>

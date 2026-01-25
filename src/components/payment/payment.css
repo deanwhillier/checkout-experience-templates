@@ -1,9 +1,9 @@
 .payment{
-    padding: 16px 0px;
+    /* padding: 16px 0px; */
 }
 
 .payment + .payment {
-    padding-top: 0px;
+    /* padding-top: 0px; */
 }
 
 .payment__no-valid-address{

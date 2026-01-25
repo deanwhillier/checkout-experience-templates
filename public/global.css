@@ -291,3 +291,199 @@ button.taxes-amount__arrow:active {
     padding-top: 10px;
     flex-direction: column;
 }
+
+/* CUSTOM MILLBANK CSS */
+
+/*  - general */
+
+.customer-section form > * + * {
+    margin-top: 44px;
+}
+
+.customer-section form .field-section__heading {
+    color: #000000;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: bold;
+    height: auto;
+    letter-spacing: 0.77px;
+    line-height: 18px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.customer-section .select-field .stx-select {
+    border-color: #75757A;
+    border-radius: 8px;
+}
+.customer-section .select-field .stx-select,
+.customer-section .input-field .stx-input {
+    margin-bottom: 0;
+}
+
+.customer-section .field-section__content .select-field__container,
+.customer-section .field-section__content .input-field__container {
+    margin-bottom: 16px;
+}
+.customer-section .field-section__content .select-field__container .select-field {
+    margin-bottom: 0;
+}
+
+.customer-section .select-field select {
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    line-height: 20px;
+    height: 52px;
+    padding-top: 12px;
+    padding-bottom: 0;
+}
+.customer-section .stx-select__select-element {
+    font-size: 16px;
+    padding: 12px 20px;
+}
+.customer-section .select-field__label {
+    font-family: Montserrat;
+    padding-left: 21px
+}
+.customer-section .select-field--has-value .select-field__label {
+    top: 7px
+}
+
+.customer-section .input-field .stx-input {
+    border-color: #75757A;
+    border-radius: 8px;
+}
+.customer-section .input-field input {
+    border-radius: 8px;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    line-height: 20px;
+    height: 52px;
+}
+.customer-section .stx-input__input-element {
+    font-size: 16px;
+    padding: 12px 20px;
+}
+.customer-section .input-field--has-value input {
+    padding-top: 12px;
+    padding-bottom: 0;
+}
+.customer-section .textarea-field textarea::placeholder,
+.customer-section .input-field input::placeholder {
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    line-height: 20px;
+    color: #75757A;
+}
+.customer-section .input-field__label {
+    font-family: Montserrat;
+    padding-left: 21px
+}
+.customer-section .input-field--has-value .input-field__label {
+    top: 7px
+}
+.customer-section .textarea-field__label {
+    padding-left: 21px
+}
+.customer-section .textarea-field--has-value .textarea-field__label {
+    top: 7px
+}
+.customer-section .textarea-field .textarea {
+    border-color: #75757A;
+    border-radius: 8px;
+}
+.customer-section .textarea-field textarea {
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0px;
+    line-height: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 20px;
+}
+
+/* - life elements */
+.customer-section .life-elements > * {
+    margin-bottom: 0;
+}
+.customer-section .life-elements > * + * {
+    margin-top: 16px;
+}
+
+/*  - customer information */
+
+.customer-section .customer-information .field-section__heading {
+    font-family: Roboto;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 38px;
+    letter-spacing: 0px;
+    color: #3E3B39;
+    text-transform: none;
+    margin-bottom: 36px;
+}
+
+.customer-section .customer-information .customer-information__authenticated {
+    background-color: #eee;
+    border: 1px solid #949494;
+    border-radius: 8px;
+    cursor: not-allowed;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 500;
+    gap: 8px;
+    letter-spacing: 0px;
+    line-height: 20px;
+    padding: 12px 20px;
+    padding-top: 24px;
+    padding-bottom: 8px;
+    position: relative;
+}
+.customer-section .customer-information .customer-information__authenticated::before {
+    content: 'Email';
+    position: relative;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 20px;
+    box-sizing: border-box;
+    position: absolute;
+    color: #757575;
+    z-index: 5;
+    font-family: Montserrat;
+    padding-left: 1px;
+    font-size: 11px;
+    top: 7px;
+}
+.customer-section .customer-information .customer-information__authenticated .customer-information__authenticated-email {
+    margin: 0;
+}
+
+.customer-section .customer-information + .customer-info-life-elements {
+    margin-top: 16px;
+}
+
+/* - shipping */
+
+.customer-section .input-field__container.address__first,
+.customer-section .input-field__container.address__city,
+.customer-section .select-field__container.address__province {
+    padding-right: 8px;
+}
+
+.customer-section .input-field__container.address__address2 {
+    padding-left: 8px;
+}
+
+
+/* payment */
+
+.customer-section .payment + .payment {
+    margin-top: 0;
+}
