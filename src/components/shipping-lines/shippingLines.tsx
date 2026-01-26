@@ -16,33 +16,28 @@ export function ShippingLines(props: IShippingLinesProps): React.ReactElement {
     const requiresShipping = useGetRequiresShipping();
     const displayShippingAlert = props.theme === Constants.THREE_PAGE && useGetGeneralSettingCheckoutFields('tax_shipping');
 
-    return (
-        <div>
-            {requiresShipping ? <div className="shipping-lines">
-                <FieldSection title={fieldSectionText} className="shipping-lines__FieldSection" showTitle>
-                    {!isValidAddress ? (
-                        <LockedSection
-                            classNameSection="shipping-line__no-valid-address"
-                            className="shipping-line__no-valid-address-label"
-                            text={notValidText}
-                        />
-                    ) : <>
-                        <LoadingSection className="shipping-line__no-valid-address" isLoading={loading} />
-                        {!loading && (
-                            <ConditionalWrap condition={!props.showNoRatesAsAlert} className="shipping-line__block">
-                                <ShippingLine showNoRatesAsAlert={props.showNoRatesAsAlert} theme={props.theme} />
-                            </ConditionalWrap>
-                        )}
-                    </>}
-                </FieldSection>
-                {displayShippingAlert && selectedLine.amount > 0 &&
-                    <div className="flash-warning__container">
-                        <span className="flash-warning__text">{taxShippingText}</span>
-                    </div>
-                }
-            </div>  : null}
-            <p>Shipping rates are calculated based on the delivery address and weight of purchased items. We offer free local delivery for orders over $40 and courier shipping for orders over $150.00 CAD with a 40 lb maximum weight per item.</p>
-            <p><strong>Local deliveries should arrive in 1&ndash;2 business days, while courier deliveries are calculated after checkout.</strong></p>
-        </div>
-    );
+
+    return requiresShipping ? (<div className="shipping-lines">
+        <FieldSection title={fieldSectionText} className="shipping-lines__FieldSection" showTitle>
+            {!isValidAddress ? (
+                <LockedSection
+                    classNameSection="shipping-line__no-valid-address"
+                    className="shipping-line__no-valid-address-label"
+                    text={notValidText}
+                />
+            ) : <>
+                <LoadingSection className="shipping-line__no-valid-address" isLoading={loading} />
+                {!loading && (
+                    <ConditionalWrap condition={!props.showNoRatesAsAlert} className="shipping-line__block">
+                        <ShippingLine showNoRatesAsAlert={props.showNoRatesAsAlert} theme={props.theme} />
+                    </ConditionalWrap>
+                )}
+            </>}
+        </FieldSection>
+        {displayShippingAlert && selectedLine.amount > 0 &&
+                <div className="flash-warning__container">
+                    <span className="flash-warning__text">{taxShippingText}</span>
+                </div>
+        }
+    </div>) : (<></>);
 }

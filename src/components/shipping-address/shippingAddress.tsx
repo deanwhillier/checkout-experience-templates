@@ -16,9 +16,8 @@ export function ShippingAddress(): React.ReactElement {
                 type={Constants.SHIPPING}
                 showTitle={true}
                 showSavedAddresses={isCustomerLoggedIn}
-                savedAddressesSelectProps={{autoSelect: true, placeholderValue: getTerm('select_shipping_address', Constants.SHIPPING_INFO)}}
+                savedAddressesSelectProps={{autoSelect: true, placeholderValue: getTerm('select_exist_address', Constants.SHIPPING_INFO)}}
             />
-            <p>We’ll use this to contact you in case anything comes up with your order. There is no charge to receive these communications, but your service provider’s standard message, data rates, or long-distance rates may apply.</p>
         </div>
     );
 }

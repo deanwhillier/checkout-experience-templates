@@ -9,7 +9,7 @@ import {useDispatch} from 'react-redux';
 import {initEpsPaymentSdk} from 'src/eps';
 import {useHistory} from 'react-router';
 import {IEpsPayments} from 'src/types';
-import {TextWithCenterLine} from 'src/components';
+import {FieldSection, TextWithCenterLine} from 'src/components';
 import {getTerm, logError} from 'src/utils';
 import {Constants} from 'src/constants';
 
@@ -42,12 +42,21 @@ export function EpsExpressPaymentGateway(): React.ReactElement {
             });
     }, [boldPayments, isPhoneRequired, shopName]);
 
-    return (
-
-        <section id="alternative-payment-method-container" className={!isSectionEnable ? 'hidden' : ''} data-testid="alternative-payment-method-container-test">
-            <TextWithCenterLine text={getTerm('use_wallet_pay_express_payment', Constants.PAYMENT_INFO)} />
-            <div id={epsExpressPayId}/>
-            <TextWithCenterLine text={getTerm('use_wallet_pay_or', Constants.PAYMENT_INFO)} />
-        </section>
-    );
+    return (<>
+        <div id="alternative-payment-method-container"className={'express-payment'}>
+            <FieldSection
+                title={getTerm('use_wallet_pay_express_payment', Constants.PAYMENT_INFO)
+                    .toLowerCase()
+                    .split(' ')
+                    .filter(Boolean)
+                    .map(word => word[0].toUpperCase() + word.slice(1))
+                    .join(' ')}
+                className={`express_payment__field-section${!isSectionEnable ? ' hidden' : ''}`}
+                showTitle={true}
+                data-testid="alternative-payment-method-container-test"
+            >
+                <div id={epsExpressPayId}/>
+            </FieldSection>
+        </div>
+    </>);
 }

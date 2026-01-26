@@ -41,6 +41,10 @@
     border: 1px solid #ffffff;
     border-radius: 26px;
     color: white;
+    font: normal normal 400 17px/19px Roboto;
+    letter-spacing: 0.77px;
+    text-transform: uppercase;
+    padding: 0 30px;
 }
 
 .form-controls__button.stx-button:active {
