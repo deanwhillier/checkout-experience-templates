@@ -19,21 +19,22 @@ export function SummarySection (props: ISummarySection) : React.ReactElement {
 
     return (
         <div className={'summary-section'}>
-            <LifeFields className={summaryAboveHeaderLifeFieldsClassNames} lifeFields={summaryAboveHeaderLifeFields}/>
+            {summaryAboveHeaderLifeFields.length ? <LifeFields className={summaryAboveHeaderLifeFieldsClassNames} lifeFields={summaryAboveHeaderLifeFields}/> : null}
             <aside className={'summary'} data-testid={'CartSummary'} aria-label={summaryAriaLabel}>
-                <button className={'summary__cart-icon'} onClick={toggleSummary} data-testid={'summary__cart-icon'}>
+                {/* <button className={'summary__cart-icon'} onClick={toggleSummary} data-testid={'summary__cart-icon'}>
                     <span data-testid={'summary__cart--expand'} className={classes} >&nbsp;</span>
-                </button>
+                </button> */}
                 <div className={'summary__cart-title'} onClick={toggleSummary} data-testid={'summary__cart-total'}>
                     <h2 className={'cart-summary__title-content'} data-testid={'summary__cart-total-title'}>Summary</h2>
-                    <Price amount={totals} moneyFormatString={formattedPrice} className={'summary__cart-price'} data-testid={'summary__cart-total-price'}/>
+                    {/* <Price amount={totals} moneyFormatString={formattedPrice} className={'summary__cart-price'} data-testid={'summary__cart-total-price'}/> */}
                 </div>
-                {showSummary && <SummaryTotals orderCompleted={props.orderCompleted}/>}
+                <SummaryTotals orderCompleted={props.orderCompleted}/>
+                <CartItems line_items={lineItems}/>
+                {/* {showSummary && <SummaryTotals orderCompleted={props.orderCompleted}/>} */}
                 {/* {showSummary && !props.orderCompleted && <SummaryDiscountCode />} */}
-                {showSummary && <CartItems line_items={lineItems}/>}
+                {/* {showSummary && <CartItems line_items={lineItems}/>} */}
             </aside>
         </div>
-
     );
 }
 

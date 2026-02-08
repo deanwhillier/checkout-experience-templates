@@ -133,10 +133,21 @@ select {
 
     .one-page {
         flex-wrap: wrap;
-        width: 1200px;
+        max-width: 1440px;
         min-height: 100vh;
         margin: 0 auto;
         position: relative;
+    }
+
+    .one-page .customer-section {
+        padding: 40px 72px;
+        margin: 0 auto;
+        width: auto;
+    }
+
+    .one-page .summary-section {
+        padding: 175px 72px 40px 72px;
+        width: 40%;
     }
 
     .no-summary {
@@ -176,7 +187,17 @@ select {
         position: relative;
         margin: auto;
         min-height: 100vh;
-        width: 768px;
+    }
+
+    .one-page .customer-section {
+        padding: 40px 48px;
+        margin: 0 auto;
+        width: auto;
+    }
+
+    .one-page .summary-section {
+        padding: 175px 48px 40px 48px;
+        width: 40%;
     }
 
     .no-summary {
@@ -217,6 +238,17 @@ select {
         min-height: 100vh;
     }
 
+    .one-page .customer-section {
+        padding: 40px;
+        margin: 0 auto;
+        width: auto;
+    }
+
+    .one-page .summary-section {
+        padding: 40px;
+        width: auto;
+    }
+
     .website__title {
         width: auto;
         margin: 16px 32px 12px;
@@ -232,6 +264,10 @@ select {
     .outside-main-content {
         width: 100%;
         padding: 16px 32px;
+    }
+
+    .checkout-page .main-header-mobile {
+        padding: 40px;
     }
 }
 
@@ -420,8 +456,19 @@ button.taxes-amount__arrow:active {
 
 /* - header */
 
-.main-header__logo.main-header-mobile  {
+.customer-section .main-header {
+    grid-auto-rows: minmax(60px, auto);
+}
+.customer-section .main-header__logo.main-header-mobile  {
     padding: 16px 32px;
+}
+.customer-section .main-header__logo .website-title-logo-clickable {
+    padding-top: 0;
+}
+
+/* - main */
+.customer-section main {
+    margin-top: 75px;
 }
 
 /* - life elements */
@@ -780,4 +827,222 @@ button.taxes-amount__arrow:active {
 }
 .customer-section .form-controls__back-link:hover {
     color: #B40400;
+}
+
+/* summary section */
+
+.summary-section .summary {
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0px;
+    line-height: 18px;
+    color: #75757A;
+}
+.summary-section .summary .summary__cart-title h2 {
+    margin-bottom: 0;
+}
+.summary-section .summary > * {
+    margin: 0
+}
+.summary-section .summary > * + * {
+    margin-top: 36px;
+}
+.summary-section .summary .cart-summary__title-content {
+    font-family: Roboto;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 38px;
+    letter-spacing: 0px;
+    color: #3E3B39;
+    text-transform: none;
+    margin-bottom: 12px;
+}
+.summary-section .summary .taxes-amount__container {
+    align-items: center;
+    margin: 0;
+}
+.summary-section .summary .taxes-amount__container + .taxes-amount__container {
+    margin-top: 20px;
+}
+.summary-section .summary .taxes-amount__container.taxes-amount__container--flex-row {
+    flex-direction: row;
+}
+.summary-section .summary .taxes-amount__label {
+    align-items: center;
+    text-transform: uppercase;
+    color: #75757A;
+    padding-left: 0;
+}
+.summary-section .summary .taxes-amount--border-bottom {
+    border-bottom: 1px solid #A4A6A8;
+    padding-bottom: 20px;
+}
+.summary-section .summary .taxes-amount__label.taxes-amount__label--full-width {
+    width: auto;
+}
+.summary-section .summary .taxes-amount__price {
+    width: auto;
+}
+.summary-section .summary .taxes-amount__price .stx-price__amount {
+    font-family: Montserrat;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #3E3B39;
+    margin: 0;
+}
+.summary-section .summary .taxes-amount__subtotal .taxes-amount__price .stx-price__amount {
+    font-family: Montserrat;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 20px;
+    color: #3E3B39;
+}
+.summary-section .summary .taxes-amount__total .taxes-amount__label {
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0px;
+    line-height: 18px;
+}
+.summary-section .summary .taxes-amount__total .taxes-amount__price .stx-price__amount {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 30px;
+    letter-spacing: 0px;
+    color: #3E3B39;
+}
+
+/* - cart items */
+.summary-section .cart-items {
+    border-bottom: none;
+}
+.summary-section .cart-items > * {
+    margin: 0;
+    padding: 0;
+}
+.summary-section .cart-items > * + * {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #A4A6A8;
+}
+.summary-section .cart-items .cart-item {
+    flex-direction: column;
+    padding-left: 76px;
+    gap: 16px;
+}
+.summary-section .cart-items .cart-item .cart-item__img-container {
+    position: absolute;
+    left: 0;
+    min-width: 0;
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 0;
+    mix-blend-mode: multiply;
+}
+.summary-section .cart-items .cart-item .cart-item__img-container .stx-image--holder {
+    padding: 0;
+}
+.summary-section .cart-items .cart-item .cart-item__text {
+    margin: 0;
+    min-height: 60px;
+}
+.summary-section .cart-items .cart-item .cart-item__text .cart-item__title {
+    margin: 0;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0px;
+    color: #3E3B39;
+}
+.summary-section .cart-items .cart-item .cart-item__text .cart-item__variant-title {
+    margin: 0;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 18px;
+    color: #75757A;
+}
+.summary-section .cart-items .cart-item .cart-item__price-quantity {
+    display: flex;
+    gap: 4px;
+    height: auto;
+    margin-left: -72px;
+    padding: 0;
+}
+.summary-section .cart-items .cart-item .cart-item__price-quantity > * {
+    margin: 0;
+    padding: 0;
+}
+.summary-section .cart-items .cart-item .cart-item__price-quantity .cart-item__quantity {
+    background: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.summary-section .cart-items .cart-item .cart-item__price-quantity .cart-item__quantity::before {
+    text-transform: uppercase;
+    color: #75757A;
+    content: "Quantity";
+    flex-grow: 1;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0px;
+    line-height: 18px;
+}
+.summary-section .cart-items .cart-item .cart-item__price-quantity .cart-item__quantity .cart-item__quantity-number {
+    font-family: Montserrat;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #3E3B39;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+.summary-section .cart-items .cart-item .cart-item__price-quantity .cart-item__price {
+    margin: 0;
+    padding: 0;
+}
+.summary-section .cart-items .cart-item .cart-item__price-quantity .cart-item__price .stx-price {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 8px;
+    text-align: start;
+}
+.summary-section .cart-items .cart-item .cart-item__price-quantity .cart-item__price .stx-price::before {
+    text-transform: uppercase;
+    color: #75757A;
+    content: "Price";
+    flex-grow: 1;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0px;
+    line-height: 18px;
+}
+.summary-section .cart-items .cart-item .cart-item__price-quantity .cart-item__price .stx-price > * {
+    font-family: Montserrat;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #3E3B39;
+    margin: 0;
+    padding: 0;
+}
+.summary-section .cart-items .cart-item .cart-item__price-quantity .cart-item__price .stx-price__amount--inactive {
+    color: #A4A6A8;
 }

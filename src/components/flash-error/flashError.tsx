@@ -12,7 +12,7 @@ export function FlashError({type = 'flash'}: IFlashErrorProps): React.ReactEleme
     // Scrolls the rootRef into view when there are >= 1 flash errors
     useEffect(() => {
         if (!rootRef.current || !errors.length) {
-            return; 
+            return;
         }
 
         rootRef.current.scrollIntoView({
@@ -22,8 +22,8 @@ export function FlashError({type = 'flash'}: IFlashErrorProps): React.ReactEleme
         });
     }, [errors]);
 
-    return (
-        <div className="flash-error" data-testid={`flash-error-${type}`} ref={rootRef}>
+    return (<>
+        {errors.length ? <div className="flash-error" data-testid={`flash-error-${type}`} ref={rootRef}>
             {errors.map((item, index) =>
                 <div key={`${item}-${index}`} className="flash-error__container" data-testid={`flash-error__container-${type}`}>
                     <span aria-live="assertive" className="flash-error__text">{item.message}</span>
@@ -32,7 +32,7 @@ export function FlashError({type = 'flash'}: IFlashErrorProps): React.ReactEleme
                     }} aria-label="Delete Error"/>
                 </div>
             )}
-        </div>
-    );
+        </div> : null}
+    </>);
 
 }

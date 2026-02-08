@@ -26,24 +26,26 @@ export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
     const requiresShipping = useGetRequiresShipping();
     const totals = getTotals(lineItems, payments, taxes, fees, discounts, orderTotal);
 
-    const discountSection = <SummaryLineExpandable
-        hasList
-        hasDeleteButton={!props.orderCompleted}
-        content={discounts}
-        eventToggleName={Constants.DISCOUNTS_TOGGLE}
-        total={totals.totalDiscounts}
-        title={getTerm('discounts', Constants.SUMMARY_INFO)}
-        eventDeleteName={REMOVE_DISCOUNT}
-    />;
+    // disable until needed
+    // const discountSection = <SummaryLineExpandable
+    //     hasList
+    //     hasDeleteButton={!props.orderCompleted}
+    //     content={discounts}
+    //     eventToggleName={Constants.DISCOUNTS_TOGGLE}
+    //     total={totals.totalDiscounts}
+    //     title={getTerm('discounts', Constants.SUMMARY_INFO)}
+    //     eventDeleteName={REMOVE_DISCOUNT}
+    // />;
 
-    const feesSection = <SummaryLineExpandable
-        hasList
-        hasDeleteButton={false}
-        content={fees}
-        eventToggleName={Constants.FEES_TOGGLE}
-        total={totals.totalAdditionalFees}
-        title={getTerm('fees', Constants.SUMMARY_INFO)}
-    />;
+    // disable until needed
+    // const feesSection = <SummaryLineExpandable
+    //     hasList
+    //     hasDeleteButton={false}
+    //     content={fees}
+    //     eventToggleName={Constants.FEES_TOGGLE}
+    //     total={totals.totalAdditionalFees}
+    //     title={getTerm('fees', Constants.SUMMARY_INFO)}
+    // />;
 
     const paymentSection = <SummaryLineExpandable
         hasBottom
@@ -63,13 +65,19 @@ export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
         total={totals.totalAmountDue}
     />;
 
-    const shippingSection = <SummaryLineExpandable
-        hasList
-        content={[shipping]}
-        eventToggleName={Constants.SHIPPING_TOGGLE}
+    const shippingSection = <SummaryLineNonExpandable
+        eventName={Constants.SHIPPING_TOGGLE}
+        name={getTerm('shipping',Constants.SUMMARY_INFO)}
         total={shipping.amount}
-        title={getTerm('shipping',Constants.SUMMARY_INFO)}
     />;
+    // disable until needed
+    // const shippingSection = <SummaryLineExpandable
+    //     hasList
+    //     content={[shipping]}
+    //     eventToggleName={Constants.SHIPPING_TOGGLE}
+    //     total={shipping.amount}
+    //     title={getTerm('shipping',Constants.SUMMARY_INFO)}
+    // />;
 
     return (
         <div className={'taxes-amount'} data-testid={'summary-totals__lines'}>
@@ -81,18 +89,27 @@ export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
 
             {requiresShipping && shippingSection}
 
-            {discounts && discounts.length > 0 && discountSection}
+            {/* disable until needed */}
+            {/* {discounts && discounts.length > 0 && discountSection} */}
 
-            {fees && fees.length > 0 && feesSection}
+            {/* disable until needed */}
+            {/* {fees && fees.length > 0 && feesSection} */}
 
-            <SummaryLineExpandable
+            <SummaryLineNonExpandable
+                hasBottom
+                eventName={Constants.TAXES_TOGGLE}
+                name={getTerm('taxes',Constants.SUMMARY_INFO)}
+                total={totals.totalTaxes}
+            />
+            {/* disable until needed */}
+            {/* <SummaryLineExpandable
                 hasBottom
                 hasList
                 content={taxes}
                 eventToggleName={Constants.TAXES_TOGGLE}
                 total={totals.totalTaxes}
                 title={getTerm('taxes',Constants.SUMMARY_INFO)}
-            />
+            /> */}
 
             <SummaryLineNonExpandable
                 eventName={Constants.TOTAL_EVENT}
