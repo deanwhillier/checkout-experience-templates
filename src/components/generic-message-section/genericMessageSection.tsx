@@ -15,7 +15,7 @@ export function GenericMessageSection(props: IGenericMessageSectionProps): React
     return (
         <div className={cssClass}>
             {props.sectionTitle && <div className={'generic-message-section__section-title'}>{props.sectionTitle}</div>}
-            {props.orderConfirmation ? <LifeFields className={thankYouMessageLifeFieldsClassNames} lifeFields={thankYouMessageLifeFields}/> : null}
+            {props.orderConfirmation && thankYouMessageLifeFields.length ? <LifeFields className={thankYouMessageLifeFieldsClassNames} lifeFields={thankYouMessageLifeFields}/> : null}
             <div className={'generic-message-section__message-container'}>
                 <div className={'generic-message-section__message-title'}>{props.messageTitle}</div>
                 <div className={'generic-message-section__message-text'}>{props.messageText}</div>

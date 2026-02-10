@@ -14,7 +14,7 @@ export function Footer(): React.ReactElement {
     return (
         <footer className={cssClass}>
             <p className={'footer--disclaimer'}>{`${footerRights} ${shopAlias}`}</p>
-            <LifeFields className={belowActionsLifeFieldsClassNames} lifeFields={belowActionsLifeFields}/>
+            {belowActionsLifeFields.length ? <LifeFields className={belowActionsLifeFieldsClassNames} lifeFields={belowActionsLifeFields}/> : null}
         </footer>
     );
 }

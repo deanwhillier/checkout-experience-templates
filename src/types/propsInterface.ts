@@ -176,7 +176,7 @@ export interface ISummaryLineExpanded {
 }
 
 export interface ISummarySection {
-    orderCompleted: boolean;
+    orderCompleted?: boolean;
 }
 
 export type ISummaryTotals = ISummarySection;

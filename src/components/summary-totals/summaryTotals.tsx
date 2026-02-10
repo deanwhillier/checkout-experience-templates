@@ -1,8 +1,7 @@
 import React from 'react';
 import {Constants} from 'src/constants';
 import {getTotals, getTerm} from 'src/utils';
-import {SummaryLineExpandable, SummaryLineNonExpandable} from 'src/components';
-import {REMOVE_DISCOUNT, REMOVE_PAYMENT} from 'src/action/appActionType';
+import {SummaryLineNonExpandable} from 'src/components';
 import {
     useGetDiscounts,
     useGetLineItems,
@@ -47,23 +46,25 @@ export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
     //     title={getTerm('fees', Constants.SUMMARY_INFO)}
     // />;
 
-    const paymentSection = <SummaryLineExpandable
-        hasBottom
-        hasList
-        hasDeleteButton={!props.orderCompleted}
-        content={payments}
-        eventToggleName={Constants.PAYMENTS_TOGGLE}
-        total={totals.totalPaid}
-        title={getTerm('payments', Constants.SUMMARY_INFO)}
-        eventDeleteName={REMOVE_PAYMENT}
-    />;
+    // disable until needed
+    // const paymentSection = <SummaryLineExpandable
+    //     hasBottom
+    //     hasList
+    //     hasDeleteButton={!props.orderCompleted}
+    //     content={payments}
+    //     eventToggleName={Constants.PAYMENTS_TOGGLE}
+    //     total={totals.totalPaid}
+    //     title={getTerm('payments', Constants.SUMMARY_INFO)}
+    //     eventDeleteName={REMOVE_PAYMENT}
+    // />;
 
-    const amountDueSection = <SummaryLineNonExpandable
-        eventName={Constants.AMOUNT_DUE_EVENT}
-        hasBottom
-        name={getTerm('amount_remaining',Constants.SUMMARY_INFO)}
-        total={totals.totalAmountDue}
-    />;
+    // disable until needed
+    // const amountDueSection = <SummaryLineNonExpandable
+    //     eventName={Constants.AMOUNT_DUE_EVENT}
+    //     hasBottom
+    //     name={getTerm('amount_remaining',Constants.SUMMARY_INFO)}
+    //     total={totals.totalAmountDue}
+    // />;
 
     const shippingSection = <SummaryLineNonExpandable
         eventName={Constants.SHIPPING_TOGGLE}
@@ -118,9 +119,11 @@ export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
                 total={totals.totalOrder}
             />
 
-            {payments && payments.length > 0 && paymentSection}
+            {/* disable until needed */}
+            {/* {payments && payments.length > 0 && paymentSection} */}
 
-            {payments && payments.length > 0 && amountDueSection}
+            {/* disable until needed */}
+            {/* {payments && payments.length > 0 && amountDueSection} */}
         </div>
     );
 }

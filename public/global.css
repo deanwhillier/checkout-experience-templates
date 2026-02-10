@@ -119,7 +119,7 @@ select {
     }
 
     .three-page, .paypal-page {
-        width: 1200px;
+        max-width: 1440px;
     }
 
     .outside-main-content-container {
@@ -139,12 +139,15 @@ select {
         position: relative;
     }
 
+    .checkout-page .thank-you,
     .one-page .customer-section {
         padding: 40px 72px;
         margin: 0 auto;
         width: auto;
+        flex: 1;
     }
 
+    .checkout-page .thank-you + .summary-section,
     .one-page .summary-section {
         padding: 175px 72px 40px 72px;
         width: 40%;
@@ -174,7 +177,7 @@ select {
     }
 
     .three-page, .paypal-page {
-        width: 768px;
+        width: auto;
     }
 
     .outside-main-content-container {
@@ -189,12 +192,15 @@ select {
         min-height: 100vh;
     }
 
+    .checkout-page .thank-you,
     .one-page .customer-section {
         padding: 40px 48px;
         margin: 0 auto;
         width: auto;
+        flex: 1;
     }
 
+    .checkout-page .thank-you + .summary-section,
     .one-page .summary-section {
         padding: 175px 48px 40px 48px;
         width: 40%;
@@ -238,15 +244,18 @@ select {
         min-height: 100vh;
     }
 
+    .checkout-page .thank-you,
     .one-page .customer-section {
         padding: 40px;
         margin: 0 auto;
         width: auto;
     }
 
+    .checkout-page .thank-you + .summary-section,
     .one-page .summary-section {
         padding: 40px;
         width: auto;
+        flex-shrink: 0;
     }
 
     .website__title {
@@ -565,6 +574,19 @@ button.taxes-amount__arrow:active {
 }
 .customer-section .shipping-address + .shipping-life-elements {
     margin-top: 16px;
+}
+.customer-section .shipping-address .field-section__header {
+    flex-direction: column;
+}
+.customer-section .shipping-address .field-section__header::after {
+    content: "* Required";
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 18px;
+    color: #3E3B39;
+    margin-bottom: 16px;
 }
 .customer-section .shipping-address .field-section__content {
     gap: 16px 8px;
@@ -899,7 +921,8 @@ button.taxes-amount__arrow:active {
     line-height: 20px;
     color: #3E3B39;
 }
-.summary-section .summary .taxes-amount__total .taxes-amount__label {
+.summary-section .summary .taxes-amount__total .taxes-amount__label,
+.summary-section .summary .taxes-amount__amount-due .taxes-amount__label {
     font-family: Montserrat;
     font-size: 14px;
     font-weight: 600;
@@ -1045,4 +1068,87 @@ button.taxes-amount__arrow:active {
 }
 .summary-section .cart-items .cart-item .cart-item__price-quantity .cart-item__price .stx-price__amount--inactive {
     color: #A4A6A8;
+}
+
+/* thank you */
+/* .checkout-page .thank-you,
+.checkout-page .thank-you + .summary-section {
+    padding: 40px 72px;
+} */
+/* .checkout-page .thank-you + .summary-section {
+    padding-top: 175px;
+} */
+.checkout-page .thank-you .main-header {
+    grid-auto-rows: minmax(60px, auto);
+}
+.checkout-page .thank-you .main-header__logo.main-header-mobile  {
+    padding: 16px 32px;
+}
+.checkout-page .thank-you .main-header__logo .website-title-logo-clickable {
+    padding-top: 0;
+}
+.checkout-page .thank-you main {
+    margin-top: 75px;
+}
+.checkout-page .thank-you main > * {
+    margin: 0;
+    padding: 0;
+}
+.checkout-page .thank-you main > * + * {
+    margin-top: 44px;
+}
+.checkout-page .thank-you main > *:last-child {
+    margin-bottom: 44px;
+}
+.thank-you .order-recap__container,
+.thank-you .generic-message-section__message-container {
+    border: none;
+    padding: 0;
+    margin: 0;
+    gap: 24px 0;
+}
+.thank-you .order-recap__container > *,
+.thank-you .generic-message-section__message-container > * {
+    padding: 0;
+    margin: 0;
+    font-family: Montserrat;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 24px;
+}
+.thank-you .order-recap__container .order-recap__title,
+.thank-you .generic-message-section__message-container .generic-message-section__message-title {
+    font-family: Roboto;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 38px;
+    letter-spacing: 0px;
+    color: #3E3B39;
+    text-transform: none;
+}
+.thank-you .order-recap__container .recap-display-item__title {
+    color: #000000;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: bold;
+    height: auto;
+    letter-spacing: 0.77px;
+    line-height: 18px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+.thank-you .contact-us {
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0px;
+    line-height: 18px;
+}
+footer .footer--disclaimer {
+    font-family: Montserrat;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0px;
+    line-height: 16px;
 }

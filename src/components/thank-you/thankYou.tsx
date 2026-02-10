@@ -15,9 +15,6 @@ export function ThankYou(): React.ReactElement {
     const orderConfirmationLifeFields = useGetLifeFields(LifeInputLocationConstants.ORDER_CONFIRMATION);
     const orderDetailsLifeFields = useGetLifeFields(LifeInputLocationConstants.ORDER_DETAILS);
 
-    const customOrderConfirmedTitle = 'Order Confirmed';
-    const customerOrderMessageText = 'Thank you for your order — it has been placed successfully. You will receive a confirmation email shortly.';
-
     return(
         <div className={'thank-you'}>
             <Header isMobile={false}/>
@@ -26,15 +23,13 @@ export function ThankYou(): React.ReactElement {
                     className={'thank-you__message'}
                     // sectionTitle={thankYouTitle}
                     sectionTitle={''}
-                    // messageTitle={terms.orderConfirmed}
-                    messageTitle={customOrderConfirmedTitle}
-                    // messageText={terms.orderConfirmedText}
-                    messageText={customerOrderMessageText}
+                    messageTitle={terms.orderConfirmed}
+                    messageText={terms.orderConfirmedText}
                     orderConfirmation={true}
                 />
-                <LifeFields className={'order-confirmation-life-elements'} lifeFields={orderConfirmationLifeFields}/>
+                {orderConfirmationLifeFields.length ? <LifeFields className={'order-confirmation-life-elements'} lifeFields={orderConfirmationLifeFields}/> : null}
                 {!isGeneric && <OrderRecap className={'thank-you__order-recap'}/>}
-                <LifeFields className={'order-details-life-elements'} lifeFields={orderDetailsLifeFields}/>
+                {orderDetailsLifeFields.length ? <LifeFields className={'order-details-life-elements'} lifeFields={orderDetailsLifeFields}/> : null}
                 <FormControls
                     className={'thank-you__footer-container'}
                     contactUs={true}
