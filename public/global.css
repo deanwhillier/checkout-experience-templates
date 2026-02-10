@@ -851,6 +851,17 @@ button.taxes-amount__arrow:active {
     color: #B40400;
 }
 
+.customer-section .form-controls__button:disabled,
+.customer-section .form-controls__button:disabled:hover,
+.customer-section .form-controls__button:disabled:active,
+.customer-section .form-controls__button:disabled:focus,
+.customer-section .form-controls__button.stx-button--is-disabled {
+    background: #3E3B39;
+    border: 1px solid #ffffff;
+    border-radius: 26px;
+    color: white;
+}
+
 /* summary section */
 
 .summary-section .summary {

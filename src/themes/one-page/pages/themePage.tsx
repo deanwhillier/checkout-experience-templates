@@ -31,7 +31,9 @@ import {
     useOnLoadDefaultLifeFields,
     useGetLifeFieldsOnPage,
     useGetIsOrderProcessed,
-    useAppSelector
+    useAppSelector,
+    useGetShippingData,
+    useGetBillingData
 } from 'src/hooks';
 import {LifeInputLocationConstants} from 'src/constants';
 import {useHistory} from 'react-router';
@@ -61,6 +63,9 @@ export function ThemePage(): React.ReactElement {
     const mainContentEndLifeFields = useGetLifeFields(LifeInputLocationConstants.MAIN_CONTENT_END);
 
     const data = useAppSelector((state) => state.data);
+    const isValid = useAppSelector((state) => state.isValid);
+
+    const enableCompleteOrderButton = isValid.billingAddress && isValid.shippingAddress && isValid.taxesGenerated && isValid.shippingLine;
 
     useEffect(() => {
         dispatch(actionSetOnePageTheme(true));
@@ -131,7 +136,7 @@ export function ThemePage(): React.ReactElement {
                             )}
                             {paymentGatewayLifeFields.length ? <LifeFields className={'payment-gateway-life-elements'} lifeFields={paymentGatewayLifeFields}/> : null}
                             <TaxExemption />
-                            <FormControls {...footerProps}/>
+                            <FormControls {...{...footerProps, nextButtonDisable: !enableCompleteOrderButton}}/>
                         </form>
                     </main>
                     <Footer />
