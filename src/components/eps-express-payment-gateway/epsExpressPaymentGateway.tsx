@@ -9,7 +9,7 @@ import {useDispatch} from 'react-redux';
 import {initEpsPaymentSdk} from 'src/eps';
 import {useHistory} from 'react-router';
 import {IEpsPayments} from 'src/types';
-import {FieldSection, TextWithCenterLine} from 'src/components';
+import {FieldSection} from 'src/components';
 import {getTerm, logError} from 'src/utils';
 import {Constants} from 'src/constants';
 

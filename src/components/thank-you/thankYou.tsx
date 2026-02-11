@@ -7,7 +7,6 @@ import {LifeInputLocationConstants} from 'src/constants';
 export function ThankYou(): React.ReactElement {
     const {
         returnUrl,
-        thankYouTitle,
         terms,
         isGeneric,
     } = useGetThankYou();

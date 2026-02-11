@@ -1,5 +1,4 @@
 import {
-    AddressSavedSelect,
     BillingAddress,
     CustomerInformation,
     EpsExpressPaymentGateway,
@@ -32,8 +31,6 @@ import {
     useGetLifeFieldsOnPage,
     useGetIsOrderProcessed,
     useAppSelector,
-    useGetShippingData,
-    useGetBillingData
 } from 'src/hooks';
 import {LifeInputLocationConstants} from 'src/constants';
 import {useHistory} from 'react-router';
