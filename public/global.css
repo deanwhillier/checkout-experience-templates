@@ -514,6 +514,9 @@ button.taxes-amount__arrow:active {
 .customer-section .express-payment .field-section__content .express-payment-container-top {
     padding-top: 0;
 }
+.customer-section .gpay-button {
+    border-radius: 100px;
+}
 
 /*  - customer information */
 
