@@ -4,12 +4,38 @@ import {useCartSummary, useGetLifeFields} from 'src/hooks';
 import {LifeInputLocationConstants} from 'src/constants';
 import classNames from 'classnames';
 import {ISummarySection} from 'src/types/propsInterface';
+import {ILineItem} from '@boldcommerce/checkout-frontend-library';
 
 export function SummarySection (props: ISummarySection) : React.ReactElement {
     // const {expandSummary, showSummary, toggleSummary, totals, lineItems, summaryAriaLabel, formattedPrice} = useCartSummary();
     const {toggleSummary, lineItems, summaryAriaLabel} = useCartSummary();
     const summaryAboveHeaderLifeFields  = useGetLifeFields(LifeInputLocationConstants.SUMMARY_ABOVE_HEADER);
     const summaryAboveHeaderLifeFieldsClassNames = classNames(['summary__life-fields', 'summary-above-header-life-elements']);
+
+    const looseItems: ILineItem[] = [];
+    const promoGroupedItems = lineItems.reduce((acc, lineItem) => {
+        const details = lineItem.product_data.properties.product_details;
+        let promoId:number | null = null;
+        if (details) {
+            try {
+                const parsed = JSON.parse(decodeURI(details));
+                promoId = parsed.promoId || null;
+            } catch (e) {
+                // handle parse error
+            }
+        }
+
+        if (promoId === null) {
+            looseItems.push(lineItem);
+            return acc;
+        }
+
+        if (!acc[promoId]) {
+            acc[promoId] = [];
+        }
+        acc[promoId].push(lineItem);
+        return acc;
+    }, {} as Record<string, ILineItem[]>);
 
     // const classes = classNames([
     //     'summary__cart--expand',
@@ -29,7 +55,12 @@ export function SummarySection (props: ISummarySection) : React.ReactElement {
                 </div>
                 {/* <SummaryTotals orderCompleted={props.orderCompleted}/> */}
                 <SummaryTotals/>
-                <CartItems line_items={lineItems}/>
+                {Object.entries(promoGroupedItems).map(([promoId, items]) => (
+                    <CartItems key={promoId} line_items={items} isPromo />
+                ))}
+                {looseItems.length > 0 && (
+                    <CartItems line_items={looseItems} />
+                )}
                 {/* {showSummary && <SummaryTotals orderCompleted={props.orderCompleted}/>} */}
                 {/* {showSummary && !props.orderCompleted && <SummaryDiscountCode />} */}
                 {/* {showSummary && <CartItems line_items={lineItems}/>} */}

@@ -1070,6 +1070,7 @@ button.taxes-amount__arrow:active {
     font-weight: 600;
     letter-spacing: 0px;
     line-height: 18px;
+    order: 1;
 }
 .summary-section .cart-items .cart-item .cart-item__price-quantity .cart-item__price .stx-price > * {
     font-family: Montserrat;
@@ -1080,8 +1081,12 @@ button.taxes-amount__arrow:active {
     margin: 0;
     padding: 0;
 }
+.summary-section .cart-items .cart-item .cart-item__price-quantity .cart-item__price .stx-price__amount {
+    order:2;
+}
 .summary-section .cart-items .cart-item .cart-item__price-quantity .cart-item__price .stx-price__amount--inactive {
     color: #A4A6A8;
+    order: 3;
 }
 
 /* thank you */

@@ -1,10 +1,12 @@
 import React from 'react';
+import ClassNames from 'classnames';
 import {CartItem} from 'src/components';
 import {ICartItemsProps} from 'src/types';
 
 export function CartItems(props: ICartItemsProps): React.ReactElement {
+    const cartItemsCN = ClassNames('cart-items', {'cart-items__promo-group': props.isPromo});
     return (
-        <ul className="cart-items">
+        <ul className={cartItemsCN}>
             {props.line_items.map(item =>
                 <CartItem
                     key={item.product_data.line_item_key}

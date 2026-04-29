@@ -1,4 +1,5 @@
 import React from 'react';
+import ClassNames from 'classnames';
 import {Price, Image} from '@boldcommerce/stacks-ui';
 import {ICartItemProps} from 'src/types';
 import {useGetCurrencyInformation, useCartItem, useGetCartParameters, useAppSelector} from 'src/hooks';
@@ -41,13 +42,27 @@ export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLin
             id?: number
             label?: string
         }
+        localShippingOnly?: boolean
+        promoId?: number
+        promoLayerId?: number
+        promoPriceOverride?: number | null
     } = JSON.parse(decodeURI(product_data.properties.product_details || '{}'));
 
-    const amount = (productDetails.price?.discount || productDetails.price?.base || displayTotal) * localQuantity;
-    const amountBeforeDiscount = productDetails.price?.discount && productDetails.price?.base ? productDetails.price.base * localQuantity : undefined;
+    const baseAmount = productDetails.price?.base;
+    const discountAmount = productDetails.price?.discount;
+    const promoOverrideAmount = productDetails.promoPriceOverride;
+    const hasPromoOverride = promoOverrideAmount !== undefined && promoOverrideAmount !== null;
+
+    const effectivePrice = hasPromoOverride ? promoOverrideAmount : (discountAmount || baseAmount || 0);
+    const comparisonPrice = hasPromoOverride ? (discountAmount || baseAmount || undefined) : baseAmount && discountAmount ? baseAmount : undefined;
+
+    const amount = effectivePrice * localQuantity;
+    const amountBeforeDiscount = comparisonPrice ? comparisonPrice * localQuantity : undefined;
+
+    const cartItemCN = ClassNames('cart-item', {'cart-item__free-gift': product_data.total_price === 0}, {'cart-item__rebate': product_data.total_price < 0});
 
     return (
-        <li className="cart-item">
+        <li className={cartItemCN}>
             <Image src={product_data.image_url} alt={product_data.product_title} className="cart-item__img-container cart-item__img-container--empty" />
             <div className="cart-item__text">
                 <h2 className="cart-item__title">{product_data.product_title || product_data.title}</h2>
