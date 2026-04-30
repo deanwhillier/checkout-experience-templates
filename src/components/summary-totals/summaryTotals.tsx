@@ -87,9 +87,6 @@ export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
                 name={getTerm('subtotal',Constants.SUMMARY_INFO)}
                 total={totals.totalSubtotal}
             />
-
-            {requiresShipping && shippingSection}
-
             {/* disable until needed */}
             {/* {discounts && discounts.length > 0 && discountSection} */}
 
@@ -111,6 +108,8 @@ export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
                 total={totals.totalTaxes}
                 title={getTerm('taxes',Constants.SUMMARY_INFO)}
             /> */}
+
+            {requiresShipping && shippingSection}
 
             <SummaryLineNonExpandable
                 eventName={Constants.TOTAL_EVENT}
