@@ -80,6 +80,27 @@ export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
     //     title={getTerm('shipping',Constants.SUMMARY_INFO)}
     // />;
 
+    const estimatedTax = Math.round((totals.totalSubtotal + shipping.amount) * 0.13 * 100) / 100; // assume Ontario tax rate for estimation
+    const taxesAreEstimated = totals.totalTaxes === 0;
+    const finalTaxes = !taxesAreEstimated ? totals.totalTaxes : estimatedTax;
+    const finalTaxesLabel = !taxesAreEstimated ? getTerm('taxes',Constants.SUMMARY_INFO) : `${getTerm('taxes',Constants.SUMMARY_INFO)} (estimated)`;
+
+    const taxesSection = <SummaryLineNonExpandable
+        hasBottom
+        eventName={Constants.TAXES_TOGGLE}
+        name={finalTaxesLabel}
+        total={finalTaxes}
+    />;
+
+    const finalTotal = taxesAreEstimated ? totals.totalSubtotal + shipping.amount + estimatedTax : totals.totalOrder;
+
+    const totalSection = <SummaryLineNonExpandable
+        eventName={Constants.TOTAL_EVENT}
+        hasBottom
+        name={getTerm('total',Constants.SUMMARY_INFO)}
+        total={finalTotal}
+    />;
+
     return (
         <div className={'taxes-amount'} data-testid={'summary-totals__lines'}>
             <SummaryLineNonExpandable
@@ -93,12 +114,8 @@ export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
             {/* disable until needed */}
             {/* {fees && fees.length > 0 && feesSection} */}
 
-            <SummaryLineNonExpandable
-                hasBottom
-                eventName={Constants.TAXES_TOGGLE}
-                name={getTerm('taxes',Constants.SUMMARY_INFO)}
-                total={totals.totalTaxes}
-            />
+            { taxesSection
+            }
             {/* disable until needed */}
             {/* <SummaryLineExpandable
                 hasBottom
@@ -111,12 +128,7 @@ export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
 
             {requiresShipping && shippingSection}
 
-            <SummaryLineNonExpandable
-                eventName={Constants.TOTAL_EVENT}
-                hasBottom
-                name={getTerm('total',Constants.SUMMARY_INFO)}
-                total={totals.totalOrder}
-            />
+            { totalSection }
 
             {/* disable until needed */}
             {/* {payments && payments.length > 0 && paymentSection} */}
