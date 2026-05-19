@@ -16,16 +16,18 @@ export function SummarySection (props: ISummarySection) : React.ReactElement {
     const promoGroupedItems = lineItems.reduce((acc, lineItem) => {
         const details = lineItem.product_data.properties.product_details;
         let promoId:number | null = null;
+        let promoIsComplete = false;
         if (details) {
             try {
                 const parsed = JSON.parse(decodeURI(details));
                 promoId = parsed.promoId || null;
+                promoIsComplete = parsed.promoIsComplete || false;
             } catch (e) {
                 // handle parse error
             }
         }
 
-        if (promoId === null) {
+        if (promoId === null || !promoIsComplete) {
             looseItems.push(lineItem);
             return acc;
         }
