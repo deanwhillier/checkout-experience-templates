@@ -10,3 +10,6 @@ package-lock.json
 yarn-error.log
 secrets.json
 config.json
+/.claude
+/CLAUDE.md
+/graphify-out
