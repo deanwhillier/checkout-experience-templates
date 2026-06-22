@@ -46,7 +46,7 @@ export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLin
         promoId?: number
         promoLayerId?: number
         promoPriceOverride?: number | null
-    } = JSON.parse(decodeURI(product_data.properties.product_details || '{}'));
+    } = typeof product_data.properties.product_details === 'string' ? JSON.parse(decodeURI(product_data.properties.product_details || '{}')) : product_data.properties.product_details || {};
 
     const baseAmount = productDetails.price?.base;
     const discountAmount = productDetails.price?.discount;
@@ -59,10 +59,15 @@ export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLin
     const amount = effectivePrice * localQuantity;
     const amountBeforeDiscount = comparisonPrice ? comparisonPrice * localQuantity : undefined;
 
+    const isFreeGift = product_data.total_price === 0;
+    const FreeGift = <span className="cart-item__reward-label">Free gift with purchase</span>;
+
     const cartItemCN = ClassNames('cart-item', {'cart-item__free-gift': product_data.total_price === 0}, {'cart-item__rebate': product_data.total_price < 0});
+
 
     return (
         <li className={cartItemCN}>
+            {isFreeGift && FreeGift}
             <Image src={product_data.image_url} alt={product_data.product_title} className="cart-item__img-container cart-item__img-container--empty" />
             <div className="cart-item__text">
                 <h2 className="cart-item__title">{product_data.product_title || product_data.title}</h2>

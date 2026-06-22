@@ -210,19 +210,7 @@ li {
     font-weight: bold;
 }
 .cart-item__free-gift {
-    padding-top: 48px !important;
-}
-.cart-item__free-gift::before {
-    content: '+ Free gift with purchase';
-    position: absolute;
-    top: 8px;
-    left: 0;
-    font-family: Montserrat;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 24px;
-    color: #3E3B39;
-    z-index: 1;
+    padding-top: 52px !important;
 }
 .cart-item__free-gift::after {
     content: '';
@@ -233,6 +221,28 @@ li {
     bottom: -24px;
     background-color: #F9F8F7;
     z-index: 0;
+}
+.cart-item__free-gift .cart-item__reward-label {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    padding-left: 36px;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 24px;
+    color: #3E3B39;
+    z-index: 1;
+}
+.cart-item__free-gift .cart-item__reward-label::before {
+    content: '+';
+    position: absolute;
+    left: 0;
+    padding-right: 22px;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDE2IDE2IiBmaWxsPSJub25lIj48Y2lyY2xlIGN4PSI4IiBjeT0iOCIgcj0iOCIgZmlsbD0iIzJDODU2MyIvPjxwYXRoIGQ9Ik00LjUgOGwyLjUgMi41IDQuNS01IiBzdHJva2U9IndoaXRlIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9zdmc+');
+    background-size: 16px 16px;
+    background-position: center right;
+    background-repeat: no-repeat;
 }
 .cart-item__free-gift > * {
     position: relative;
