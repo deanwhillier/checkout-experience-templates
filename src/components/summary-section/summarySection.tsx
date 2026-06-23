@@ -15,29 +15,26 @@ export function SummarySection (props: ISummarySection) : React.ReactElement {
     const looseItems: ILineItem[] = [];
     const promoGroupedItems = lineItems.reduce((acc, lineItem) => {
         const details = lineItem.product_data.properties.product_details;
-        let promoId:number | null = null;
-        let promoCompleted = false;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let promo: Record<string, any> = {};
         if (details) {
             try {
                 const parsed = JSON.parse(decodeURI(details));
-                promoId = parsed.promoId || null;
-                promoCompleted = parsed.promoCompleted || false;
+                promo = parsed.promo || {};
             } catch (e) {
                 // handle parse error
             }
         }
 
-        console.log({details: JSON.parse(decodeURI(details)), promoId, promoCompleted, lineItem});
-
-        if (promoId === null || !promoCompleted) {
+        if (promo.id === null || !promo.completed) {
             looseItems.push(lineItem);
             return acc;
         }
 
-        if (!acc[promoId]) {
-            acc[promoId] = [];
+        if (!acc[promo.id]) {
+            acc[promo.id] = [];
         }
-        acc[promoId].push(lineItem);
+        acc[promo.id].push(lineItem);
         return acc;
     }, {} as Record<string, ILineItem[]>);
 

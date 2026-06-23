@@ -2,15 +2,16 @@ import React from 'react';
 import ClassNames from 'classnames';
 import {Price, Image} from '@boldcommerce/stacks-ui';
 import {ICartItemProps} from 'src/types';
-import {useGetCurrencyInformation, useCartItem, useGetCartParameters, useAppSelector} from 'src/hooks';
+// import {useGetCurrencyInformation, useCartItem, useGetCartParameters, useAppSelector} from 'src/hooks';
+import {useGetCurrencyInformation, useCartItem, useGetCartParameters} from 'src/hooks';
 import {SemiControlledNumberInput} from '../semi-controlled-number-input/semiControlledNumberInput';
 import {getLineItemPropertiesForDisplay} from 'src/utils';
 
 export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLineItemProperties = false}: ICartItemProps): React.ReactElement {
     const {product_data} = line_item;
     const {formattedPrice} = useGetCurrencyInformation();
-    const displayExchangeRate: number = useAppSelector((state) => state.data.application_state?.display_exchange_rate);
-    const displayTotal = displayExchangeRate ? displayExchangeRate * product_data.total_price : product_data.total_price;
+    // const displayExchangeRate: number = useAppSelector((state) => state.data.application_state?.display_exchange_rate);
+    // const displayTotal = displayExchangeRate ? displayExchangeRate * product_data.total_price : product_data.total_price;
 
     const {
         decrementQuantity: decrementLocalQuantity,
@@ -43,31 +44,63 @@ export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLin
             label?: string
         }
         localShippingOnly?: boolean
-        promoId?: number
-        promoLayerId?: number
-        promoPriceOverride?: number | null
+        promo: {
+            id: number | null,
+            layerId: number | null,
+            layerTypeName: string | null,
+            priceOverride: number | null,
+            completed: boolean | null,
+            rewardType: 'free' | 'reduced' | 'rebate' | 'discount' | null
+        }
     } = typeof product_data.properties.product_details === 'string' ? JSON.parse(decodeURI(product_data.properties.product_details || '{}')) : product_data.properties.product_details || {};
 
     const baseAmount = productDetails.price?.base;
     const discountAmount = productDetails.price?.discount;
-    const promoOverrideAmount = productDetails.promoPriceOverride;
+    const promoOverrideAmount = productDetails.promo?.priceOverride;
     const hasPromoOverride = promoOverrideAmount !== undefined && promoOverrideAmount !== null;
+    const isPromoDiscountType = productDetails.promo?.rewardType === 'discount';
 
-    const effectivePrice = hasPromoOverride ? promoOverrideAmount : (discountAmount || baseAmount || 0);
-    const comparisonPrice = hasPromoOverride ? (discountAmount || baseAmount || undefined) : baseAmount && discountAmount ? baseAmount : undefined;
+    const effectivePrice = !isPromoDiscountType && hasPromoOverride ? promoOverrideAmount : (discountAmount || baseAmount || 0);
+    const comparisonPrice = !isPromoDiscountType && hasPromoOverride ? (discountAmount || baseAmount || undefined) : baseAmount && discountAmount ? baseAmount : undefined;
 
     const amount = effectivePrice * localQuantity;
     const amountBeforeDiscount = comparisonPrice ? comparisonPrice * localQuantity : undefined;
 
-    const isFreeGift = product_data.total_price === 0;
-    const FreeGift = <span className="cart-item__reward-label">Free gift with purchase</span>;
+    const isReward = !!productDetails?.promo?.rewardType;
+    let rewardLabel:string;
+    switch (productDetails?.promo?.rewardType) {
+        case 'free':
+            rewardLabel = 'Free gift with purchase';
+            break;
+        case 'reduced':
+            rewardLabel = 'Reduced price with purchase';
+            break;
+        case 'rebate':
+            rewardLabel = 'Rebate with purchase';
+            break;
+        case 'discount':
+            rewardLabel = 'Discount applied';
+            break;
+        default:
+            rewardLabel =  'Reward with purchase';
+    }
+    const Reward = isReward && (
+        <span className="cart-item__reward-label">{rewardLabel}</span>
+    );
 
-    const cartItemCN = ClassNames('cart-item', {'cart-item__free-gift': product_data.total_price === 0}, {'cart-item__rebate': product_data.total_price < 0});
+    const cartItemCN = ClassNames(
+        'cart-item',
+        {'cart-item__reward': !!productDetails?.promo?.rewardType},
+        {'cart-item__free-gift': productDetails?.promo?.rewardType === 'free'},
+        {'cart-item__reduced-price': productDetails?.promo?.rewardType === 'reduced'},
+        {'cart-item__rebate': productDetails?.promo?.rewardType === 'rebate'},
+        {'cart-item__discount': productDetails?.promo?.rewardType === 'discount'}
+    );
 
 
     return (
         <li className={cartItemCN}>
-            {isFreeGift && FreeGift}
+            {Reward}
             <Image src={product_data.image_url} alt={product_data.product_title} className="cart-item__img-container cart-item__img-container--empty" />
             <div className="cart-item__text">
                 <h2 className="cart-item__title">{product_data.product_title || product_data.title}</h2>

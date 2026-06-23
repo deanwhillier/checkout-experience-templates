@@ -5,6 +5,7 @@ import {ICartItemsProps} from 'src/types';
 
 export function CartItems(props: ICartItemsProps): React.ReactElement {
     const cartItemsCN = ClassNames('cart-items', {'cart-items__promo-group': props.isPromo});
+
     return (
         <ul className={cartItemsCN}>
             {props.line_items.map(item =>
@@ -14,6 +15,7 @@ export function CartItems(props: ICartItemsProps): React.ReactElement {
                     onUpdateQuantity={props.onUpdateQuantity}
                     quantityDisabled={props.quantityDisabled}
                     showLineItemProperties={props.showLineItemProperties}
+                    isPromo={props.isPromo}
                 />
             )}
         </ul>

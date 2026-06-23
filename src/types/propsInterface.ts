@@ -194,6 +194,7 @@ export interface ICartItemProps {
     onUpdateQuantity?: (lineItemKey: string, quantity: number) => Promise<void>;
     quantityDisabled?: boolean;
     showLineItemProperties?: boolean;
+    isPromo?: boolean;
 }
 
 export interface IBulletsProps {

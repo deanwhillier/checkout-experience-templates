@@ -209,10 +209,10 @@ li {
     margin: 4px 3px;
     font-weight: bold;
 }
-.cart-item__free-gift {
+.cart-item__reward {
     padding-top: 52px !important;
 }
-.cart-item__free-gift::after {
+.cart-item__reward::after {
     content: '';
     position: absolute;
     top: 0;
@@ -222,7 +222,7 @@ li {
     background-color: #F9F8F7;
     z-index: 0;
 }
-.cart-item__free-gift .cart-item__reward-label {
+.cart-item__reward .cart-item__reward-label {
     position: absolute;
     top: 12px;
     left: 0;
@@ -234,7 +234,7 @@ li {
     color: #3E3B39;
     z-index: 1;
 }
-.cart-item__free-gift .cart-item__reward-label::before {
+.cart-item__reward .cart-item__reward-label::before {
     content: '+';
     position: absolute;
     left: 0;
@@ -244,7 +244,7 @@ li {
     background-position: center right;
     background-repeat: no-repeat;
 }
-.cart-item__free-gift > * {
+.cart-item__reward > * {
     position: relative;
     z-index: 1;
 }

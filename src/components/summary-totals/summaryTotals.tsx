@@ -1,6 +1,7 @@
 import React from 'react';
 import {Constants} from 'src/constants';
 import {getTotals, getTerm} from 'src/utils';
+// import {SummaryLineExpandable, SummaryLineNonExpandable} from 'src/components';
 import {SummaryLineNonExpandable} from 'src/components';
 import {
     useGetDiscounts,
@@ -13,6 +14,7 @@ import {
     useGetRequiresShipping,
 } from 'src/hooks';
 import {ISummaryTotals} from 'src/types';
+// import {REMOVE_DISCOUNT} from 'src/action';
 
 export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
     const discounts = useGetDiscounts();
@@ -25,6 +27,41 @@ export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
     const requiresShipping = useGetRequiresShipping();
     const totals = getTotals(lineItems, payments, taxes, fees, discounts, orderTotal);
 
+
+    // calculate total discounts
+    const discountOverrideAmount = lineItems.reduce((acc, lineItem) => {
+        const productData = lineItem.product_data;
+        const productDetails = productData.properties.product_details;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let price: Record<string, any> = {};
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let promo: Record<string, any> = {};
+        if (productDetails) {
+            try {
+                const parsed = JSON.parse(decodeURI(productDetails));
+                price = parsed.price || {};
+                promo = parsed.promo || {};
+            } catch (e) {
+                // handle parse error
+            }
+        }
+
+        if (promo.rewardType !== 'discount') {
+            return acc;
+        }
+
+        const originalPrice = (price.discount > 0 ? Math.min(price.base, price.discount) : price.base ?? 0);
+        const promoOverridePrice = (promo.priceOverride >= 0 ? promo.priceOverride : originalPrice);
+        const discountAmount = originalPrice - promoOverridePrice;
+        return acc + discountAmount;
+    }, 0);
+
+
+    const discountSection = <SummaryLineNonExpandable
+        eventName={Constants.DISCOUNTS_TOGGLE}
+        name={getTerm('discounts', Constants.SUMMARY_INFO)}
+        total={0 - discountOverrideAmount}
+    />;
     // disable until needed
     // const discountSection = <SummaryLineExpandable
     //     hasList
@@ -106,10 +143,10 @@ export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
             <SummaryLineNonExpandable
                 eventName={Constants.SUBTOTAL_EVENT}
                 name={getTerm('subtotal',Constants.SUMMARY_INFO)}
-                total={totals.totalSubtotal}
+                total={totals.totalSubtotal + discountOverrideAmount}
             />
             {/* disable until needed */}
-            {/* {discounts && discounts.length > 0 && discountSection} */}
+            {(discounts && discounts.length > 0 || discountOverrideAmount) && discountSection}
 
             {/* disable until needed */}
             {/* {fees && fees.length > 0 && feesSection} */}

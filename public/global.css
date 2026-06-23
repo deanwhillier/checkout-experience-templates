@@ -1089,6 +1089,18 @@ button.taxes-amount__arrow:active {
     order: 3;
 }
 
+.summary-section .taxes-amount__discounts {
+    order: 2;
+}
+
+.summary-section .summary .taxes-amount__discounts .stx-price__amount {
+    color: #2C8563;
+}
+
+.summary-section .taxes-amount__shipping {
+    order: 3;
+}
+
 /* thank you */
 /* .checkout-page .thank-you,
 .checkout-page .thank-you + .summary-section {
