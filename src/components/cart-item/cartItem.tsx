@@ -59,9 +59,31 @@ export function CartItem({line_item, quantityDisabled, onUpdateQuantity, showLin
     const promoOverrideAmount = productDetails.promo?.priceOverride;
     const hasPromoOverride = promoOverrideAmount !== undefined && promoOverrideAmount !== null;
     const isPromoDiscountType = productDetails.promo?.rewardType === 'discount';
+    const isPromoRebateType = productDetails.promo?.rewardType === 'rebate';
 
-    const effectivePrice = !isPromoDiscountType && hasPromoOverride ? promoOverrideAmount : (discountAmount || baseAmount || 0);
-    const comparisonPrice = !isPromoDiscountType && hasPromoOverride ? (discountAmount || baseAmount || undefined) : baseAmount && discountAmount ? baseAmount : undefined;
+    let effectivePrice: number;
+    let comparisonPrice: number | undefined;
+    switch(true) {
+        // rebate promos never show a comparison price
+        case isPromoRebateType && hasPromoOverride:
+            effectivePrice = promoOverrideAmount || discountAmount || baseAmount || 0;
+            comparisonPrice = undefined;
+            break;
+        // discount promos never show a promo override price
+        case isPromoDiscountType:
+            effectivePrice = discountAmount || baseAmount || 0;
+            comparisonPrice = baseAmount && discountAmount ? baseAmount : undefined;
+            break;
+        // show promo override price if available
+        case hasPromoOverride:
+            effectivePrice = promoOverrideAmount || discountAmount || baseAmount || 0;
+            comparisonPrice = discountAmount || baseAmount || undefined;
+            break;
+        // default to using standard pricing
+        default:
+            effectivePrice = discountAmount || baseAmount || 0;
+            comparisonPrice = baseAmount && discountAmount ? baseAmount : undefined;
+    }
 
     const amount = effectivePrice * localQuantity;
     const amountBeforeDiscount = comparisonPrice ? comparisonPrice * localQuantity : undefined;
