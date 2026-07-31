@@ -146,7 +146,7 @@ export function SummaryTotals(props: ISummaryTotals): React.ReactElement {
                 total={totals.totalSubtotal + discountOverrideAmount}
             />
             {/* disable until needed */}
-            {(discounts && discounts.length > 0 || discountOverrideAmount) && discountSection}
+            {(discounts && discounts.length > 0 || discountOverrideAmount) ? discountSection : null}
 
             {/* disable until needed */}
             {/* {fees && fees.length > 0 && feesSection} */}
