@@ -21,6 +21,7 @@ export const defaultOrderInitialization: IOrderInitialization = {
         discountButton: false,
         discountClose: false,
         shippingLines: false,
+        emailSync: false,
     },
     externalPaymentGateways: {
         isLoading: new Set(),

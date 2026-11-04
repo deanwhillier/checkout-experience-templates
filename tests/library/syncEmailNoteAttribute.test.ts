@@ -4,6 +4,7 @@ import {EMAIL_NOTE_ATTR_KEY} from 'src/constants';
 import {clearStaleEmailNoteAttribute, patchOrderMetaData, syncEmailNoteAttribute} from 'src/library';
 import {shippingLines} from 'src/library/shippingLines';
 import {validateShippingLine} from 'src/library/validateShippingLine';
+import {actionSetLoader} from 'src/action';
 import {stateMock} from 'src/mocks/stateMock';
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/customer');
@@ -71,6 +72,30 @@ describe('syncEmailNoteAttribute', () => {
         expect(shippingLinesMock).not.toHaveBeenCalled();
     });
 
+    test('holds the loader while syncing and releases it afterwards', async () => {
+        getState.mockReturnValue(stateWith('a@b.com'));
+        validateEmailMock.mockResolvedValue({...baseReturnObject, success: true});
+        await syncEmailNoteAttribute(dispatch, getState);
+        const calls = dispatch.mock.calls.map(c => c[0]);
+        expect(calls[0]).toEqual(actionSetLoader('emailSync', true));
+        expect(calls[calls.length - 1]).toEqual(actionSetLoader('emailSync', false));
+    });
+
+    test('releases the loader when the email is rejected', async () => {
+        getState.mockReturnValue(stateWith('bad'));
+        validateEmailMock.mockResolvedValue({...baseReturnObject, success: false});
+        await syncEmailNoteAttribute(dispatch, getState);
+        expect(dispatch).toHaveBeenLastCalledWith(actionSetLoader('emailSync', false));
+    });
+
+    test('leaves the loader on when the shopper kept typing during validation', async () => {
+        getState.mockReturnValueOnce(stateWith('a@b.com')).mockReturnValueOnce(stateWith('a@b.com'))
+            .mockReturnValue(stateWith('a@b.com2'));
+        validateEmailMock.mockResolvedValue({...baseReturnObject, success: true});
+        await syncEmailNoteAttribute(dispatch, getState);
+        expect(dispatch).not.toHaveBeenCalledWith(actionSetLoader('emailSync', false));
+    });
+
     test('does nothing when the attribute already holds the email', async () => {
         getState.mockReturnValue(stateWith('a@b.com', 'a@b.com'));
         await syncEmailNoteAttribute(dispatch, getState);
@@ -127,6 +152,18 @@ describe('clearStaleEmailNoteAttribute', () => {
         getState.mockReturnValue(stateWith('a@b.co', 'a@b.com'));
         await clearStaleEmailNoteAttribute('a@b.co')(dispatch, getState);
         expect(patchMock).toHaveBeenCalledWith(expectedPayload(''));
+    });
+
+    test('holds the loader while the typed email is not the validated one', async () => {
+        getState.mockReturnValue(stateWith('a@b.co', 'a@b.com'));
+        await clearStaleEmailNoteAttribute('a@b.co')(dispatch, getState);
+        expect(dispatch).toHaveBeenCalledWith(actionSetLoader('emailSync', true));
+    });
+
+    test('releases the loader when the typed email matches the validated one', async () => {
+        getState.mockReturnValue(stateWith('a@b.com', 'a@b.com'));
+        await clearStaleEmailNoteAttribute('a@b.com')(dispatch, getState);
+        expect(dispatch).toHaveBeenCalledWith(actionSetLoader('emailSync', false));
     });
 
     test('keeps the stored email while the field still matches it', async () => {

@@ -1,6 +1,7 @@
 import {Dispatch} from 'redux';
 import {ICartParameters, validateEmail} from '@boldcommerce/checkout-frontend-library';
 import {IOrderInitialization} from 'src/types';
+import {actionSetLoader} from 'src/action';
 import {API_RETRY, EMAIL_NOTE_ATTR_KEY} from 'src/constants';
 import {patchOrderMetaData} from 'src/library/patchOrderMetaData';
 import {shippingLines} from 'src/library/shippingLines';
@@ -43,12 +44,19 @@ async function writeAttribute(dispatch: Dispatch, value: string): Promise<void> 
 export function clearStaleEmailNoteAttribute(typedValue: string) {
     return async function clearStaleEmailNoteAttributeThunk(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
         const current = getCurrentValue(getState);
+        // While the typed email isn't the validated one, hold the Checkout button (see `emailSync` loader);
+        // otherwise Enter or a quick click submits the order before the email and shipping are in step.
+        const typed = typedValue.trim();
+        dispatch(actionSetLoader(EMAIL_SYNC_LOADER, typed !== REMOVED_VALUE && typed !== current));
         if (current === REMOVED_VALUE || patchInFlight || current === typedValue.trim()) {
             return;
         }
         await writeAttribute(dispatch, REMOVED_VALUE);
     };
 }
+
+// Loader flag: any true loader puts the footer button in its loading state and blocks submit.
+const EMAIL_SYNC_LOADER = 'emailSync';
 
 /**
  * Called when the email field loses focus, and on load / mount so an email carried over from a
@@ -58,6 +66,20 @@ export function clearStaleEmailNoteAttribute(typedValue: string) {
  */
 export async function syncEmailNoteAttribute(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
     const email = getTypedEmail(getState);
+    if (email !== REMOVED_VALUE && email !== getCurrentValue(getState)) {
+        dispatch(actionSetLoader(EMAIL_SYNC_LOADER, true));
+    }
+    try {
+        await syncEmail(dispatch, getState, email);
+    } finally {
+        // If the shopper kept typing, their newer value owns the loader.
+        if (getTypedEmail(getState) === email) {
+            dispatch(actionSetLoader(EMAIL_SYNC_LOADER, false));
+        }
+    }
+}
+
+async function syncEmail(dispatch: Dispatch, getState: () => IOrderInitialization, email: string): Promise<void> {
     const current = getCurrentValue(getState);
 
     if (email === REMOVED_VALUE) {
