@@ -2,7 +2,7 @@ import {IApiReturnObject, getCustomer, validateEmail, ICustomer} from '@boldcomm
 import {handleErrorIfNeeded, isObjectEquals} from 'src/utils';
 import {Dispatch} from 'redux';
 import {IOrderInitialization} from 'src/types';
-import {postGuestCustomer} from 'src/library';
+import {postGuestCustomer, syncEmailNoteAttribute} from 'src/library';
 import {API_RETRY} from 'src/constants';
 
 export async function validateEmailAddress(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void>{
@@ -27,4 +27,7 @@ export async function validateEmailAddress(dispatch: Dispatch, getState: () => I
     if (callPostAPI){
         await postGuestCustomer(dispatch, getState);
     }
+
+    // Keep the order's note attribute in step with the email, including one carried over from a previous order.
+    await dispatch(syncEmailNoteAttribute);
 }

@@ -2,6 +2,7 @@ import {baseReturnObject, validateEmail} from '@boldcommerce/checkout-frontend-l
 import {mocked} from 'jest-mock';
 import {EMAIL_NOTE_ATTR_KEY} from 'src/constants';
 import {clearStaleEmailNoteAttribute, patchOrderMetaData, syncEmailNoteAttribute} from 'src/library';
+import {actionSetAppStateValid} from 'src/action';
 import {stateMock} from 'src/mocks/stateMock';
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/customer');
@@ -34,6 +35,24 @@ describe('syncEmailNoteAttribute', () => {
         validateEmailMock.mockResolvedValue({...baseReturnObject, success: true});
         await syncEmailNoteAttribute(dispatch, getState);
         expect(patchMock).toHaveBeenCalledWith(expectedPayload('a@b.com'));
+    });
+
+    test('flags shipping for a refresh when a valid shipping address exists', async () => {
+        const state = stateWith('a@b.com');
+        state.isValid.shippingAddress = true;
+        getState.mockReturnValue(state);
+        validateEmailMock.mockResolvedValue({...baseReturnObject, success: true});
+        await syncEmailNoteAttribute(dispatch, getState);
+        expect(dispatch).toHaveBeenCalledWith(actionSetAppStateValid('updatedShippingAddress', true));
+    });
+
+    test('does not flag shipping when there is no valid shipping address yet', async () => {
+        const state = stateWith('a@b.com');
+        state.isValid.shippingAddress = false;
+        getState.mockReturnValue(state);
+        validateEmailMock.mockResolvedValue({...baseReturnObject, success: true});
+        await syncEmailNoteAttribute(dispatch, getState);
+        expect(dispatch).not.toHaveBeenCalledWith(actionSetAppStateValid('updatedShippingAddress', true));
     });
 
     test('does nothing when the attribute already holds the email', async () => {

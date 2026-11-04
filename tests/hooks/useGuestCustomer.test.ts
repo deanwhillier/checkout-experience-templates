@@ -46,8 +46,8 @@ describe('Testing hook useGuestCustomer', () => {
     });
 
     const hookData = [
-        { error: 'test', handleCalls: 4, checkboxCalls: 5, acceptMarketing: 'checked', acceptMarketingHidden: false},
-        { error: '', handleCalls: 2, checkboxCalls: 3, acceptMarketing: 'hidden', acceptMarketingHidden: true},
+        { error: 'test', handleCalls: 5, checkboxCalls: 6, acceptMarketing: 'checked', acceptMarketingHidden: false},
+        { error: '', handleCalls: 3, checkboxCalls: 4, acceptMarketing: 'hidden', acceptMarketingHidden: true},
     ];
 
     test.each(hookData)(
@@ -67,7 +67,8 @@ describe('Testing hook useGuestCustomer', () => {
             expect(results.acceptMarketingChecked).toStrictEqual(marketing);
             expect(results.acceptMarketingHidden).toStrictEqual(acceptMarketingHidden);
 
-            expect(mockDispatch).toBeCalledTimes(0);
+            // the mount effect syncs an email carried over from a previous order
+            expect(mockDispatch).toBeCalledTimes(1);
             results.handleChange(target);
             expect(mockDispatch).toBeCalledTimes(handleCalls);
 

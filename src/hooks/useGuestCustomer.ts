@@ -6,7 +6,7 @@ import {
 } from 'src/hooks';
 import {useDispatch} from 'react-redux';
 import {getTerm} from 'src/utils';
-import {useCallback} from 'react';
+import {useCallback, useEffect} from 'react';
 import {actionUpdateCustomerAcceptMarketing, actionUpdateCustomerEmail} from 'src/action/customerAction';
 import {IUseGuestCustomer} from 'src/types';
 import {useGetErrorByField} from 'src/hooks';
@@ -31,6 +31,11 @@ export function useGuestCustomer(): IUseGuestCustomer {
     } else {
         emailError = undefined;
     }
+
+    // An email carried over from a previous order is already in state, so no blur will write it.
+    useEffect(() => {
+        dispatch(syncEmailNoteAttribute);
+    }, []);
 
     const handleChange = useCallback(e => {
         const value = e.target.value;

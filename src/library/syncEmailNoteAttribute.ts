@@ -1,6 +1,7 @@
 import {Dispatch} from 'redux';
 import {ICartParameters, validateEmail} from '@boldcommerce/checkout-frontend-library';
 import {IOrderInitialization} from 'src/types';
+import {actionSetAppStateValid} from 'src/action';
 import {API_RETRY, EMAIL_NOTE_ATTR_KEY} from 'src/constants';
 import {patchOrderMetaData} from 'src/library/patchOrderMetaData';
 
@@ -49,7 +50,9 @@ export function clearStaleEmailNoteAttribute(typedValue: string) {
 }
 
 /**
- * Called when the email field loses focus. Writes the typed email to the note attributes
+ * Called when the email field loses focus, and on load / mount so an email carried over from a
+ * previous order (state already holds it, no blur ever happens) still reaches the new order.
+ * Writes the typed email to the note attributes
  * only if the API accepts it; otherwise (or if empty) the attribute is removed.
  */
 export async function syncEmailNoteAttribute(dispatch: Dispatch, getState: () => IOrderInitialization): Promise<void> {
@@ -76,6 +79,12 @@ export async function syncEmailNoteAttribute(dispatch: Dispatch, getState: () =>
 
     if (response.success) {
         await writeAttribute(dispatch, email);
+        // The shipping override reads this attribute to find the customer's delivery area, so
+        // lines already fetched without (or with a different) email are stale. Only needed once
+        // a valid shipping address exists; otherwise lines are fetched later with the email set.
+        if (getState().isValid.shippingAddress) {
+            dispatch(actionSetAppStateValid('updatedShippingAddress', true));
+        }
     } else if (getCurrentValue(getState) !== REMOVED_VALUE) {
         await writeAttribute(dispatch, REMOVED_VALUE);
     }
