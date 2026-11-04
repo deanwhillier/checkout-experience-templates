@@ -46,8 +46,8 @@ describe('Testing hook useGuestCustomer', () => {
     });
 
     const hookData = [
-        { error: 'test', handleCalls: 3, checkboxCalls: 4, acceptMarketing: 'checked', acceptMarketingHidden: false},
-        { error: '', handleCalls: 1, checkboxCalls: 2, acceptMarketing: 'hidden', acceptMarketingHidden: true},
+        { error: 'test', handleCalls: 4, checkboxCalls: 5, acceptMarketing: 'checked', acceptMarketingHidden: false},
+        { error: '', handleCalls: 2, checkboxCalls: 3, acceptMarketing: 'hidden', acceptMarketingHidden: true},
     ];
 
     test.each(hookData)(
@@ -74,5 +74,8 @@ describe('Testing hook useGuestCustomer', () => {
             results.handleCheckboxChange();
             expect(mockDispatch).toBeCalledTimes(checkboxCalls);
             expect(debounceMock).toBeCalledTimes(0);
+
+            results.handleBlurEmail?.(target);
+            expect(mockDispatch).toBeCalledTimes(checkboxCalls + 1);
         });
 });

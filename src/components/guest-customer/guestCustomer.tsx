@@ -7,7 +7,7 @@ import ClassNames from 'classnames';
 import {isShopifyPlatform} from 'src/utils';
 
 export function GuestCustomer(): React.ReactElement {
-    const {email, getTerm, emailError, handleChange, handleCheckboxChange, acceptMarketingChecked, acceptMarketingHidden} = useGuestCustomer();
+    const {email, getTerm, emailError, handleChange, handleBlurEmail, handleCheckboxChange, acceptMarketingChecked, acceptMarketingHidden} = useGuestCustomer();
     const acceptMarketingCss = ClassNames(
         'customer-information__accepts-marketing',
         {'hidden': acceptMarketingHidden}
@@ -25,6 +25,7 @@ export function GuestCustomer(): React.ReactElement {
                     placeholder={getTerm('email_address', Constants.CUSTOMER_INFO)}
                     className={'customer-information__email'}
                     handleChange={handleChange}
+                    handleBlur={handleBlurEmail}
                     errorMessage={emailError}
                     value={email}
                     dataTestId={'email-address-input-field'}

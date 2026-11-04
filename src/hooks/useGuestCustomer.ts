@@ -12,6 +12,7 @@ import {IUseGuestCustomer} from 'src/types';
 import {useGetErrorByField} from 'src/hooks';
 import {actionRemoveErrorByField} from 'src/action';
 import {debounceConstants} from 'src/constants';
+import {clearStaleEmailNoteAttribute, syncEmailNoteAttribute} from 'src/library';
 
 export function useGuestCustomer(): IUseGuestCustomer {
     const dispatch = useDispatch();
@@ -38,10 +39,15 @@ export function useGuestCustomer(): IUseGuestCustomer {
             dispatch(actionRemoveErrorByField('email')); // TODO: Request PAPI to Fix this field return in the error.
         }
         dispatch(actionUpdateCustomerEmail(value));
+        dispatch(clearStaleEmailNoteAttribute(value));
         if (callApiAtOnEvents) {
             debounceApiCall();
         }
     }, [emailErrorEmailAddress, emailErrorEmail, callApiAtOnEvents]);
+
+    const handleBlurEmail = useCallback(() => {
+        dispatch(syncEmailNoteAttribute);
+    }, []);
 
     const handleCheckboxChange = useCallback(() => {
         const value = !acceptMarketingChecked;
@@ -51,5 +57,5 @@ export function useGuestCustomer(): IUseGuestCustomer {
         }
     }, [acceptMarketingChecked]);
 
-    return {email, getTerm, emailError, handleChange, handleCheckboxChange, acceptMarketingChecked, acceptMarketingHidden};
+    return {email, getTerm, emailError, handleChange, handleBlurEmail, handleCheckboxChange, acceptMarketingChecked, acceptMarketingHidden};
 }
