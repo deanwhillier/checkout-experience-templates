@@ -1,9 +1,10 @@
 import {Dispatch} from 'redux';
 import {ICartParameters, validateEmail} from '@boldcommerce/checkout-frontend-library';
 import {IOrderInitialization} from 'src/types';
-import {actionSetAppStateValid} from 'src/action';
 import {API_RETRY, EMAIL_NOTE_ATTR_KEY} from 'src/constants';
 import {patchOrderMetaData} from 'src/library/patchOrderMetaData';
+import {shippingLines} from 'src/library/shippingLines';
+import {validateShippingLine} from 'src/library/validateShippingLine';
 
 // The order meta data PATCH can't be told to drop a key, so "removed" is an empty string.
 // Consumers should treat '' the same as the attribute being absent.
@@ -79,11 +80,15 @@ export async function syncEmailNoteAttribute(dispatch: Dispatch, getState: () =>
 
     if (response.success) {
         await writeAttribute(dispatch, email);
-        // The shipping override reads this attribute to find the customer's delivery area, so
-        // lines already fetched without (or with a different) email are stale. Only needed once
-        // a valid shipping address exists; otherwise lines are fetched later with the email set.
-        if (getState().isValid.shippingAddress) {
-            dispatch(actionSetAppStateValid('updatedShippingAddress', true));
+        // The shipping override reads this attribute to find the customer's delivery area, so lines
+        // already fetched without (or with a different) email are stale. Refetch directly rather than
+        // flipping `updatedShippingAddress`: that flag may already be true (e.g. no lines for the area),
+        // and the shipping hook may not be mounted on the page the shopper is on. Only needed once a
+        // valid shipping address exists; otherwise lines are fetched later with the email set.
+        const state = getState();
+        if (state.isValid.shippingAddress && state.data.initial_data.requires_shipping) {
+            await dispatch(shippingLines(true) as never);
+            await dispatch(validateShippingLine as never);
         }
     } else if (getCurrentValue(getState) !== REMOVED_VALUE) {
         await writeAttribute(dispatch, REMOVED_VALUE);

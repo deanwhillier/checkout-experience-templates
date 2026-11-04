@@ -2,11 +2,15 @@ import {baseReturnObject, validateEmail} from '@boldcommerce/checkout-frontend-l
 import {mocked} from 'jest-mock';
 import {EMAIL_NOTE_ATTR_KEY} from 'src/constants';
 import {clearStaleEmailNoteAttribute, patchOrderMetaData, syncEmailNoteAttribute} from 'src/library';
-import {actionSetAppStateValid} from 'src/action';
+import {shippingLines} from 'src/library/shippingLines';
+import {validateShippingLine} from 'src/library/validateShippingLine';
 import {stateMock} from 'src/mocks/stateMock';
 
 jest.mock('@boldcommerce/checkout-frontend-library/lib/customer');
 jest.mock('src/library/patchOrderMetaData');
+jest.mock('src/library/shippingLines');
+jest.mock('src/library/validateShippingLine');
+const shippingLinesMock = mocked(shippingLines, true);
 const validateEmailMock = mocked(validateEmail, true);
 const patchMock = mocked(patchOrderMetaData, true);
 
@@ -37,22 +41,34 @@ describe('syncEmailNoteAttribute', () => {
         expect(patchMock).toHaveBeenCalledWith(expectedPayload('a@b.com'));
     });
 
-    test('flags shipping for a refresh when a valid shipping address exists', async () => {
+    test('refetches shipping lines when a valid shipping address exists', async () => {
         const state = stateWith('a@b.com');
         state.isValid.shippingAddress = true;
+        state.data.initial_data.requires_shipping = true;
         getState.mockReturnValue(state);
         validateEmailMock.mockResolvedValue({...baseReturnObject, success: true});
         await syncEmailNoteAttribute(dispatch, getState);
-        expect(dispatch).toHaveBeenCalledWith(actionSetAppStateValid('updatedShippingAddress', true));
+        expect(shippingLinesMock).toHaveBeenCalledWith(true);
+        expect(dispatch).toHaveBeenCalledWith(validateShippingLine);
     });
 
-    test('does not flag shipping when there is no valid shipping address yet', async () => {
+    test('does not refetch shipping when the order does not require shipping', async () => {
+        const state = stateWith('a@b.com');
+        state.isValid.shippingAddress = true;
+        state.data.initial_data.requires_shipping = false;
+        getState.mockReturnValue(state);
+        validateEmailMock.mockResolvedValue({...baseReturnObject, success: true});
+        await syncEmailNoteAttribute(dispatch, getState);
+        expect(shippingLinesMock).not.toHaveBeenCalled();
+    });
+
+    test('does not refetch shipping when there is no valid shipping address yet', async () => {
         const state = stateWith('a@b.com');
         state.isValid.shippingAddress = false;
         getState.mockReturnValue(state);
         validateEmailMock.mockResolvedValue({...baseReturnObject, success: true});
         await syncEmailNoteAttribute(dispatch, getState);
-        expect(dispatch).not.toHaveBeenCalledWith(actionSetAppStateValid('updatedShippingAddress', true));
+        expect(shippingLinesMock).not.toHaveBeenCalled();
     });
 
     test('does nothing when the attribute already holds the email', async () => {
