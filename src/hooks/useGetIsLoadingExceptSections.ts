@@ -1,7 +1,9 @@
 import {useAppSelector} from 'src/hooks/rootHooks';
 import {IIsLoading} from 'src/types';
 
-export function useGetIsLoadingExceptSections(sections = ['shippingLines']): boolean {
+// 'emailSync' is held while the shopper is typing in a field this hook disables, so it must be excluded
+// or the field locks after each keystroke.
+export function useGetIsLoadingExceptSections(sections = ['shippingLines', 'emailSync']): boolean {
     const isLoading: IIsLoading = useAppSelector((state) => state.isLoading);
     for(const loader in isLoading){
         if(!sections.includes(loader) && isLoading[loader] === true){

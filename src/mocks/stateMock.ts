@@ -34,6 +34,7 @@ export const stateMock: IOrderInitialization = {
         discountButton:false,
         discountClose: false,
         shippingLines: false,
+        emailSync: false,
     },
     'isValid': {
         taxesGenerated: false,

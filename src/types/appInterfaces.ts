@@ -67,6 +67,7 @@ export interface IIsLoading {
     discountButton: boolean
     discountClose: boolean
     shippingLines: boolean
+    emailSync: boolean
 }
 
 export interface IIsButtonDisable {

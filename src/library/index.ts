@@ -61,3 +61,4 @@ export * from './getPayloadForGetShippingLines';
 export * from './getPayloadForGenerateTaxes';
 export * from './setDefaultShippingLine';
 export * from './setShippingLineAsValid';
+export * from './syncEmailNoteAttribute';

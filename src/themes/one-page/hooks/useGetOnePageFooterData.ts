@@ -31,8 +31,13 @@ export function useGetOnePageFooterData(): IUseGetOnePageFooterDataProps {
     const requiredLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.ONE_PAGE);
     const thankYouPageLifeFields = useGetLifeFieldsOnPage(LifeInputPageConstants.THANK_YOU_PAGE);
     const nextButtonOnClick = useCallback(() => {
+        // Enter in a field submits the form even while the button is loading; don't process the
+        // order mid email-sync or shipping refresh.
+        if (nextButtonLoading) {
+            return;
+        }
         dispatch(callEpsProcessOrder(history, totals, requiredLifeFields, thankYouPageLifeFields));
-    }, [totals]);
+    }, [totals, nextButtonLoading]);
 
     return {backLinkOnClick, backLinkText, nextButtonOnClick, nextButtonText, nextButtonLoading, language, title, nextButtonTestDataId};
 }

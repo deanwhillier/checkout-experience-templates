@@ -6,12 +6,13 @@ import {
 } from 'src/hooks';
 import {useDispatch} from 'react-redux';
 import {getTerm} from 'src/utils';
-import {useCallback} from 'react';
+import {useCallback, useEffect} from 'react';
 import {actionUpdateCustomerAcceptMarketing, actionUpdateCustomerEmail} from 'src/action/customerAction';
 import {IUseGuestCustomer} from 'src/types';
 import {useGetErrorByField} from 'src/hooks';
 import {actionRemoveErrorByField} from 'src/action';
 import {debounceConstants} from 'src/constants';
+import {clearStaleEmailNoteAttribute, syncEmailNoteAttribute} from 'src/library';
 
 export function useGuestCustomer(): IUseGuestCustomer {
     const dispatch = useDispatch();
@@ -31,6 +32,11 @@ export function useGuestCustomer(): IUseGuestCustomer {
         emailError = undefined;
     }
 
+    // An email carried over from a previous order is already in state, so no blur will write it.
+    useEffect(() => {
+        dispatch(syncEmailNoteAttribute);
+    }, []);
+
     const handleChange = useCallback(e => {
         const value = e.target.value;
         if (emailErrorEmailAddress || emailErrorEmail) {
@@ -38,10 +44,15 @@ export function useGuestCustomer(): IUseGuestCustomer {
             dispatch(actionRemoveErrorByField('email')); // TODO: Request PAPI to Fix this field return in the error.
         }
         dispatch(actionUpdateCustomerEmail(value));
+        dispatch(clearStaleEmailNoteAttribute(value));
         if (callApiAtOnEvents) {
             debounceApiCall();
         }
     }, [emailErrorEmailAddress, emailErrorEmail, callApiAtOnEvents]);
+
+    const handleBlurEmail = useCallback(() => {
+        dispatch(syncEmailNoteAttribute);
+    }, []);
 
     const handleCheckboxChange = useCallback(() => {
         const value = !acceptMarketingChecked;
@@ -51,5 +62,5 @@ export function useGuestCustomer(): IUseGuestCustomer {
         }
     }, [acceptMarketingChecked]);
 
-    return {email, getTerm, emailError, handleChange, handleCheckboxChange, acceptMarketingChecked, acceptMarketingHidden};
+    return {email, getTerm, emailError, handleChange, handleBlurEmail, handleCheckboxChange, acceptMarketingChecked, acceptMarketingHidden};
 }

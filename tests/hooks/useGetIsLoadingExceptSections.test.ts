@@ -11,9 +11,13 @@ describe('Testing hook useGetIsLoadingExceptSections', () => {
     const isLoadingCustomerMock = {...stateMock.isLoading};
     isLoadingCustomerMock.customerPageButton = true;
 
+    const isLoadingEmailSyncMock = {...stateMock.isLoading};
+    isLoadingEmailSyncMock.emailSync = true;
+
     const dataset = [
         {name: 'With all value false', data: stateMock.isLoading, expected: false },
         {name: 'With one value true', data: isLoadingCustomerMock , expected: true },
+        {name: 'With only the email sync loader true (fields must stay editable)', data: isLoadingEmailSyncMock, expected: false },
     ];
 
 

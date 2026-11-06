@@ -169,6 +169,8 @@ export class debounceConstants {
 }
 
 export const API_RETRY = 1;
+// Note attribute holding the shopper's validated email. Shopper-visible, so only ever the typed email.
+export const EMAIL_NOTE_ATTR_KEY = 'millbank_checkout_email';
 export const HIDE_MESSAGE = 5000;
 
 export class PlatformTypeConstants {
